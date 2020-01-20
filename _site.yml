@@ -7,9 +7,6 @@ navbar:
   - text: All Events
     icon: fa-home
     href: index.html
-  - text: Single Events
-    icon: fa-gamepad
-    menu:
   right:
   - text: ''
     icon: fa-twitter
