@@ -1,7 +1,7 @@
 # Data acquisition
 library(cliapp)
-source("00-helpers-gdqtracker.R")
-source("00-helpers-gdqvods.R")
+source("00_helpers-gdqtracker.R")
+source("00_helpers-gdqvods.R")
 
 events <- rev(tolower(event_dates$event))
 
@@ -60,7 +60,7 @@ if (!file.exists("data/all_runs_gdqvods.rds")) {
   cli_h1("Getting runs from gdqvods...")
 
   gdqvods <- get_gdqvods_runs(event_dates$event)
-  saveRDS(gdqvods, "data//gdqvods.com/gdqvods_runs.rds")
+  saveRDS(gdqvods, "data/gdqvods.com/gdqvods_runs.rds")
 
   cli_alert_success("Got & saved gdqvods runs!")
 }
