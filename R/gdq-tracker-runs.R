@@ -84,7 +84,11 @@ update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALS
   purrr::walk(events, ~{
     cli::cli_progress_update(id = prg)
     cli::cli_text("Current event: {.x}")
-    out_file <- paste0("data/gamesdonequick.com/runs/runs_", tolower(.x), ".rds")
+
+    out_file <- fs::path(
+      "data/gamesdonequick.com/runs/",
+      paste0("runs_", tolower(.x), ".rds")
+    )
 
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 

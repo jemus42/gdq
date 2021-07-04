@@ -177,7 +177,7 @@ update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress =
 
     out_file <- fs::path(
       "data/gamesdonequick.com/donations/",
-      paste0("donations_", tolower("AGDQ20201"), ".rds")
+      paste0("donations_", tolower(.x), ".rds")
     )
 
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
