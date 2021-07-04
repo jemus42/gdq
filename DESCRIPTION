@@ -1,5 +1,5 @@
 Package: gdqdonations
-Title: What the Package Does (One Line, Title Case)
+Title: Get data from the 'GDQ' donation tracker
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Lukas",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "github@quantenbrot.de",
            comment = c(ORCID = "0000-0001-7528-3795"))
-Description: What the package does (one paragraph).
+Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -26,10 +26,11 @@ Imports:
     lubridate,
     tibble,
     magrittr,
-    emo,
     fs,
     usethis,
     beepr,
-    rlang (>= 0.1.2)
+    rlang (>= 0.1.2),
+    hms,
+    scales
 Suggests: 
     roxygen2

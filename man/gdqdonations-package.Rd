@@ -4,9 +4,9 @@
 \name{gdqdonations-package}
 \alias{gdqdonations}
 \alias{gdqdonations-package}
-\title{gdqdonations: What the Package Does (One Line, Title Case)}
+\title{gdqdonations: Get data from the 'GDQ' donation tracker}
 \description{
-What the package does (one paragraph).
+Scrape data from the 'GDQ' donation tracker.
 }
 \author{
 \strong{Maintainer}: Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID})

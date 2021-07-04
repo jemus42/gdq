@@ -10,7 +10,7 @@ get_runs(event)
 \item{event}{Event such as \code{"agdq2019"}, lower case.}
 }
 \value{
-
+A tibble
 }
 \description{
 Get runs from GDQ tracker

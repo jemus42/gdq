@@ -2,7 +2,7 @@
 #'
 #' @inheritParams get_page_count
 #'
-#' @return
+#' @return A tibble
 #' @export
 #'
 #' @examples
