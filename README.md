@@ -16,8 +16,8 @@ and also gdqvods.com
 Install from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("jemus42/gdqdonations")
+# install.packages("remotes")
+remotes::install_github("jemus42/gdqdonations")
 ```
 
 ## Example
@@ -28,19 +28,15 @@ This is a basic example which shows you how to solve a common problem:
 library(gdqdonations)
 
 # Included event dates for convenience
-event_dates
-#> # A tibble: 22 x 4
-#>    event    start               end                 event_duration
-#>    <chr>    <dttm>              <dttm>                       <dbl>
-#>  1 AGDQ2011 2011-01-06 00:00:00 2011-01-11 00:00:00              5
-#>  2 AGDQ2012 2012-01-04 00:00:00 2012-01-09 00:00:00              5
-#>  3 AGDQ2013 2013-01-06 00:00:00 2013-01-12 00:00:00              6
-#>  4 AGDQ2014 2014-01-05 00:00:00 2014-01-11 00:00:00              6
-#>  5 AGDQ2015 2015-01-04 00:00:00 2015-01-10 00:00:00              6
-#>  6 AGDQ2016 2016-01-03 00:00:00 2016-01-10 00:00:00              7
-#>  7 AGDQ2017 2017-01-08 00:00:00 2017-01-15 00:00:00              7
-#>  8 AGDQ2018 2018-01-07 00:00:00 2018-01-14 00:00:00              7
-#>  9 AGDQ2019 2019-01-06 00:00:00 2019-01-12 00:00:00              6
-#> 10 AGDQ2020 2020-01-05 00:00:00 2020-01-12 00:00:00              7
-#> # … with 12 more rows
+tibble::glimpse(events)
+#> Rows: 22
+#> Columns: 8
+#> $ event                <chr> "AGDQ2011", "AGDQ2012", "AGDQ2013", "AGDQ2014", "…
+#> $ start                <dttm> 2011-01-06, 2012-01-04, 2013-01-06, 2014-01-05, …
+#> $ end                  <dttm> 2011-01-11, 2012-01-09, 2013-01-12, 2014-01-11, …
+#> $ event_duration       <dbl> 5, 5, 6, 6, 6, 7, 7, 7, 6, 7, 7, 2, 4, 5, 6, 7, 6…
+#> $ event_name           <chr> "Awesome Games Done Quick 2011", "Awesome Games D…
+#> $ tracker_run_url      <chr> "/tracker/runs/agdq2011", "/tracker/runs/agdq2012…
+#> $ tracker_donation_url <chr> "/tracker/event/agdq2011", "/tracker/event/agdq20…
+#> $ event_slug           <chr> "agdq2011", "agdq2012", "agdq2013", "agdq2014", "…
 ```

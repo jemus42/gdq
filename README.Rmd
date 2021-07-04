@@ -26,9 +26,10 @@ The goal of `gdqdonations` is to to gather data from the GDQ tracker, and also g
 Install from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("jemus42/gdqdonations")
+# install.packages("remotes")
+remotes::install_github("jemus42/gdqdonations")
 ```
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -37,5 +38,5 @@ This is a basic example which shows you how to solve a common problem:
 library(gdqdonations)
 
 # Included event dates for convenience
-event_dates
+tibble::glimpse(events)
 ```

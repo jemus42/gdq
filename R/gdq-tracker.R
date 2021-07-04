@@ -23,7 +23,8 @@ tracker_run_index <- function() {
     event_name = rvest::html_text(runlinks),
     tracker_run_url = rvest::html_attr(runlinks, name = "href"),
     tracker_donation_url = rvest::html_attr(donationlinks, name = "href"),
-    event_slug = stringr::str_extract(tracker_run_url, "[a-zA-Z0-9]+$")
+    event_slug = stringr::str_extract(tracker_run_url, "[a-zA-Z0-9]+$"),
+    event = stringr::str_to_upper(event_slug)
   )
 
 }

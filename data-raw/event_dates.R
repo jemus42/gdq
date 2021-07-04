@@ -6,6 +6,7 @@ library(dplyr)
 
 event_dates <- tribble(
   ~event,     ~start,                        ~end,
+  # Awesome Games Done Quick
   "AGDQ2011", ymd("2011-01-06", tz = "UTC"), ymd("2011-01-11", tz = "UTC"),
   "AGDQ2012", ymd("2012-01-04", tz = "UTC"), ymd("2012-01-09", tz = "UTC"),
   "AGDQ2013", ymd("2013-01-06", tz = "UTC"), ymd("2013-01-12", tz = "UTC"),
@@ -17,6 +18,7 @@ event_dates <- tribble(
   "AGDQ2019", ymd("2019-01-06", tz = "UTC"), ymd("2019-01-12", tz = "UTC"),
   "AGDQ2020", ymd("2020-01-05", tz = "UTC"), ymd("2020-01-12", tz = "UTC"),
   "AGDQ2021", ymd("2021-01-03", tz = "UTC"), ymd("2021-01-10", tz = "UTC"),
+  # Summer Games Done Quick
   "SGDQ2011", ymd("2011-08-04", tz = "UTC"), ymd("2011-08-06", tz = "UTC"),
   "SGDQ2012", ymd("2012-05-24", tz = "UTC"), ymd("2012-05-28", tz = "UTC"),
   "SGDQ2013", ymd("2013-07-25", tz = "UTC"), ymd("2013-07-30", tz = "UTC"),
@@ -31,4 +33,8 @@ event_dates <- tribble(
 ) %>%
   mutate(event_duration = start %--% end / ddays(1))
 
-usethis::use_data(event_dates, overwrite = TRUE)
+event_index <- gdqdonations::tracker_run_index()
+
+events <- dplyr::left_join(event_dates, event_index, by = "event")
+
+usethis::use_data(events, overwrite = TRUE, compress = "xz", version = 3)
