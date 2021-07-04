@@ -7,7 +7,7 @@
 update_tracker_runs(events, ignore_cache = FALSE, in_progress = FALSE)
 }
 \arguments{
-\item{events}{Events such as \code{"agdq2019"}, lower case.}
+\item{events}{Events such as \code{"agdq2019"}, case insensitive.}
 
 \item{ignore_cache}{\verb{[FALSE]}: If \code{TRUE}, ignore cached file and re-retrieve data.}
 

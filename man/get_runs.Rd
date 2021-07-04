@@ -4,10 +4,11 @@
 \alias{get_runs}
 \title{Get runs from GDQ tracker}
 \usage{
-get_runs(event)
+get_runs(event = "latest")
 }
 \arguments{
-\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
+\item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
+\code{"latest"}, is an alias for \code{event_index$event[nrow(event_index)]}.}
 }
 \value{
 A \link[tibble:tibble]{tibble}.

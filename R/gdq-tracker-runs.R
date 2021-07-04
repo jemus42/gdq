@@ -9,7 +9,9 @@
 #' \dontrun{
 #' get_runs(event = "sgdq2021") %>% View()
 #' }
-get_runs <- function(event) {
+get_runs <- function(event = "latest") {
+
+  if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
   url <- events$tracker_run_url[events$event == event]
@@ -51,8 +53,7 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
   }
 
   runs <- purrr::map_df(events, readRDS) %>%
-    dplyr::arrange(run_start) %>%
-    as_tibble()
+    dplyr::arrange(run_start)
 
   if (cache) {
     cli::cli_alert_info("Caching run data at {.emph data/all_runs_gdqtracker.rds}")

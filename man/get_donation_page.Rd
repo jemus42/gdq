@@ -4,12 +4,13 @@
 \alias{get_donation_page}
 \title{Get a single page from the tracker}
 \usage{
-get_donation_page(event = "sgdq2021", page = 1)
+get_donation_page(event = "latest", page = 1)
 }
 \arguments{
-\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
+\item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
+\code{"latest"}, is an alias for \code{event_index$event[nrow(event_index)]}.}
 
-\item{page}{Page to get, a single number.}
+\item{page}{\verb{[1]}: Page to get, a single number.}
 }
 \value{
 A \link[tibble:tibble]{tibble}.

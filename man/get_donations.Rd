@@ -4,10 +4,11 @@
 \alias{get_donations}
 \title{Get all donations for an event from the tracker}
 \usage{
-get_donations(event = "sgdq2021", delay = 0.5)
+get_donations(event = "latest", delay = 0.5)
 }
 \arguments{
-\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
+\item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
+\code{"latest"}, is an alias for \code{event_index$event[nrow(event_index)]}.}
 
 \item{delay}{\verb{[0.5]}: Seconds to wait between pages. Don't annoy the webserver.}
 }

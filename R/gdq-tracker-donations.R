@@ -1,18 +1,20 @@
 #' Get page count of GDQ tracker
 #'
-#' @param event Event such as `"AGDQ2021"`, case insensitive.
+#' @param event `["latest"]` Event such as `"AGDQ2021"`, case insensitive. The default,
+#' `"latest"`, is an alias for `event_index$event[nrow(event_index)]`.
 #'
 #' @return Page count as a `numeric(1)`.
 #' @export
 #'
 #' @examples
-#' get_page_count(event = "sgdq2021")
-get_page_count <- function(event = "sgdq2021") {
+#' get_page_count(event = "latest")
+get_page_count <- function(event = "latest") {
 
-  if (event %in% c("agdq2021", "sgdq2021")) event <- toupper(event)
+  if (event == "latest") event <- event_index$event[nrow(event_index)]
 
-  url_base <- "https://gamesdonequick.com/tracker/donations/"
-  url <- paste0(url_base, event)
+  event <- toupper(event)
+  url <- events$tracker_donation_url[events$event == event]
+  url <- paste0(gdq_base_url, url)
 
   rvest::read_html(url) %>%
     rvest::html_node("#page+ label") %>%
@@ -24,7 +26,7 @@ get_page_count <- function(event = "sgdq2021") {
 #' Get a single page from the tracker
 #'
 #' @inheritParams get_page_count
-#' @param page Page to get, a single number.
+#' @param page `[1]`: Page to get, a single number.
 #'
 #' @return A [tibble][tibble::tibble].
 #' @export
@@ -33,7 +35,9 @@ get_page_count <- function(event = "sgdq2021") {
 #' \dontrun{
 #' get_donation_page(event = "sgdq2021", page = 1)
 #' }
-get_donation_page <- function(event = "sgdq2021", page = 1) {
+get_donation_page <- function(event = "latest", page = 1) {
+
+  if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
   url <- events$tracker_donation_url[events$event == event]
@@ -63,13 +67,13 @@ get_donation_page <- function(event = "sgdq2021", page = 1) {
 #' \dontrun{
 #' donations_sgdq2021 <- get_donations(event = "sgdq2021")
 #' }
-get_donations <- function(event = "sgdq2021", delay = .5) {
+get_donations <- function(event = "latest", delay = .5) {
+
+  if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
-
   pages <- seq_len(get_page_count(event = event))
 
-  #cli::cli_text("Getting donations for {event}")
   prg <- cli::cli_progress_bar(
     name = glue::glue("Getting {toupper(event)}"),
     type = "iterator",
@@ -88,8 +92,8 @@ get_donations <- function(event = "sgdq2021", delay = .5) {
 
 #' Aggregate all donation data from the tracker in one file
 #'
-#' @param events `[NULL]` Optional vector of file paths to individual `.rds` files.
-#' @param cache `[TRUE]` Save aggregated dataset at `"data/all_donations.rds"`.
+#' @param events `[NULL]`: Optional vector of file paths to individual `.rds` files.
+#' @param cache `[TRUE]`: Save aggregated dataset at `"data/all_donations.rds"`.
 #'
 #' @return A [tibble][tibble::tibble].
 #' @export
@@ -124,7 +128,7 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
     dplyr::arrange(time) %>%
     #mutate(day_num = forcats::fct_inorder(day_num, ordered = TRUE)) %>%
     dplyr::left_join(
-      event_dates,
+      event_index,
       by = "event"
     ) %>%
     dplyr::arrange(time) %>%
@@ -149,12 +153,13 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 
 #' Update donation data from GDQ tracker
 #'
-#' @param events Events such as `"agdq2019"`, lower case.
+#' @param events Events such as `"agdq2019"`, case insensitive.
 #' @param ignore_cache `[FALSE]`: If `TRUE`, ignore cached file and re-retrieve data.
 #' @param in_progress `[FALSE]`: If `TRUE`, donations for in-progress events are retrieved.
 #' @param sound `[TRUE]`: If `TRUE`, `beepr::beep(2)` is played after each event's
 #' donations have been retrieved. Since scraping *will* take a long time for full
 #' events, this seemed like a good idea.
+#' @inheritParams get_donations
 #'
 #' @return Invisibly: A [tibble][tibble::tibble].
 #' @export
@@ -167,7 +172,9 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 #'   in_progress = TRUE
 #' )
 #' }
-update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress = FALSE, sound = TRUE) {
+update_tracker_donations <- function(
+  events, delay = 0.5, ignore_cache = FALSE, in_progress = FALSE, sound = TRUE
+  ) {
   prg <- cli::cli_progress_bar(name = "Getting donations", total = length(events))
   events <- toupper(events)
 
@@ -188,7 +195,7 @@ update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress =
       }
     }
 
-    get_donations(event = .x) %>%
+    get_donations(event = .x, delay = delay) %>%
       saveRDS(file = out_file)
 
     if (sound) beepr::beep(2)

@@ -7,9 +7,9 @@
 assemble_donations(events = NULL, cache = TRUE)
 }
 \arguments{
-\item{events}{\verb{[NULL]} Optional vector of file paths to individual \code{.rds} files.}
+\item{events}{\verb{[NULL]}: Optional vector of file paths to individual \code{.rds} files.}
 
-\item{cache}{\verb{[TRUE]} Save aggregated dataset at \code{"data/all_donations.rds"}.}
+\item{cache}{\verb{[TRUE]}: Save aggregated dataset at \code{"data/all_donations.rds"}.}
 }
 \value{
 A \link[tibble:tibble]{tibble}.

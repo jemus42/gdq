@@ -4,10 +4,11 @@
 \alias{get_page_count}
 \title{Get page count of GDQ tracker}
 \usage{
-get_page_count(event = "sgdq2021")
+get_page_count(event = "latest")
 }
 \arguments{
-\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
+\item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
+\code{"latest"}, is an alias for \code{event_index$event[nrow(event_index)]}.}
 }
 \value{
 Page count as a \code{numeric(1)}.
@@ -16,5 +17,5 @@ Page count as a \code{numeric(1)}.
 Get page count of GDQ tracker
 }
 \examples{
-get_page_count(event = "sgdq2021")
+get_page_count(event = "latest")
 }
