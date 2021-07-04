@@ -1,4 +1,3 @@
-
 #' Get runs from GDQ tracker
 #'
 #' @inheritParams get_page_count

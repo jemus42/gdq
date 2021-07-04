@@ -13,6 +13,6 @@ start \%--\% end
 The result of calling \code{interval(start = NULL, end = NULL, tzone = tz(start))}.
 }
 \description{
-See \code{lubridate::\link[lubridate::interval]{\%--\%}} for details.
+See \code{\link[lubridate:interval]{lubridate::interval()}} for details.
 }
 \keyword{internal}

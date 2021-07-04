@@ -15,7 +15,7 @@ NULL
 
 #' Interval operator
 #'
-#' See \code{lubridate::\link[lubridate::interval]{\%--\%}} for details.
+#' See [`lubridate::interval()`] for details.
 #'
 #' @name %--%
 #' @rdname interval
