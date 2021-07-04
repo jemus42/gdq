@@ -4,7 +4,7 @@
 \alias{\%--\%}
 \title{Interval operator}
 \usage{
-lhs \%--\% rhs
+start \%--\% end
 }
 \arguments{
 \item{start, end}{Interval start and end points.}

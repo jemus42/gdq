@@ -29,4 +29,7 @@ Imports:
     emo,
     fs,
     usethis,
-    beepr
+    beepr,
+    rlang (>= 0.1.2)
+Suggests: 
+    roxygen2

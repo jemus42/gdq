@@ -4,3 +4,4 @@
 ^renv$
 ^gdqdonations\.Rproj$
 ^\.Rproj\.user$
+^data-raw$

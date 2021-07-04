@@ -4,10 +4,12 @@
 \alias{get_donations}
 \title{Get all donations for an event from the tracker}
 \usage{
-get_donations(event = "sgdq2021")
+get_donations(event = "sgdq2021", delay = 0.5)
 }
 \arguments{
 \item{event}{Event such as \code{"agdq2019"}, lower case.}
+
+\item{delay}{\verb{[0.5]}: Seconds to wait between pages. Don't annoy the webserver.}
 }
 \value{
 A tibble

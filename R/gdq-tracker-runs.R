@@ -1,5 +1,5 @@
 
-#' Title
+#' Get runs from GDQ tracker
 #'
 #' @inheritParams get_page_count
 #'
@@ -7,29 +7,34 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' get_runs(event = "sgdq2021") %>% View()
+#' }
 get_runs <- function(event) {
+
+  if (event %in% c("agdq2021", "sgdq2021")) event <- toupper(event)
+
   rvest::read_html(paste0("https://gamesdonequick.com/tracker/runs/", event)) %>%
     rvest::html_table() %>%
-    magrittr::extract2(1) %>%
+    purrr::pluck(1) %>%
     purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) %>%
     dplyr::mutate(
       run_start = lubridate::ymd_hms(run_start),
       run_end = lubridate::ymd_hms(run_end),
       run_duration_s = as.numeric(difftime(run_end, run_start, units = "secs")),
       run_duration_hms = hms::hms(seconds = run_duration_s),
-      event = stringr::str_to_upper(str_extract(event, "[as]gdq\\d+")),
-      year = stringr::str_extract(event, "\\d+"),
-      gdq = stringr::str_remove(event, "\\d+")
+      event = stringr::str_to_upper(stringr::str_extract(stringr::str_to_lower(.env$event), "[as]gdq\\d+")),
+      year = stringr::str_extract(.data$event, "\\d+"),
+      gdq = stringr::str_remove(.data$event, "\\d+")
     ) %>%
-    dplyr::arrange(run_start) %>%
-    as_tibble()
+    dplyr::arrange(run_start)
 }
 
 #' Update all runs from GDQ tracker
 #'
 #' @inheritParams assemble_donations
 #'
-#' @return
+#' @return A tibble
 #' @export
 #'
 #' @examples
@@ -55,4 +60,40 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
   }
 
   runs
+}
+
+#' Update run data from GDQ tracker
+#'
+#' @inheritParams update_tracker_donations
+#'
+#' @return Nothing
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' update_tracker_runs(
+#'   events = c("agdq2021", "sgdq2021"),
+#'   ignore_cache = TRUE,
+#'   in_progress = TRUE
+#' )
+#' }
+update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALSE) {
+  prg <- cli::cli_progress_bar(name = "Getting runs", total = length(events))
+
+  purrr::walk(events, ~{
+    cli::cli_progress_update(id = prg)
+    cli::cli_text("Current event: {toupper(.x)}")
+    out_file <- paste0("data/gamesdonequick.com/runs/runs_", .x, ".rds")
+
+    if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
+
+    if (!in_progress) {
+      if (Sys.Date() < event_dates$end[tolower(event_dates$event) == .x]) return(tibble::tibble())
+    }
+
+    get_runs(event = .x) %>%
+      saveRDS(out_file)
+  })
+
+  cli::cli_alert_success("Got runs from GDQ tracker!")
 }

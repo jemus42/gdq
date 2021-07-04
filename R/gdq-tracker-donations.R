@@ -149,13 +149,13 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 }
 
 
-#' Update donation data from tracker
+#' Update donation data from GDQ tracker
 #'
-#' @inheritParams get_page_count
+#' @param events Events such as `"agdq2019"`, lower case.
 #' @param ignore_cache `[FALSE]`: If `TRUE`, ignore cached file and re-retrieve data.
 #' @param in_progress `[FALSE]`: If `TRUE`, donations for in-progress events are retrieved.
 #'
-#' @return Invisibly: Tibble of donations.
+#' @return Invisibly: tibble of donations.
 #' @export
 #'
 #' @examples
@@ -168,7 +168,6 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 #' }
 update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress = FALSE) {
   prg <- cli::cli_progress_bar(name = "Getting donations", total = length(events))
-  #cli::cli_h1("Getting donations...")
 
   donations <- purrr::walk(events, ~{
     cli::cli_progress_update(id = prg)
@@ -182,13 +181,10 @@ update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress =
       if (Sys.Date() < event_dates$end[tolower(event_dates$event) == .x]) return(tibble::tibble())
     }
 
-    dntns <- get_donations(event = .x)
-    saveRDS(object = dntns, file = out_file)
-
+    get_donations(event = .x) %>%
+      saveRDS(file = out_file)
     beepr::beep(2)
-    dntns
   })
-  cli::cli_alert_success("Got donations!")
 
-  invisible(donations)
+  cli::cli_alert_success("Got donations!")
 }
