@@ -58,6 +58,15 @@ scale_x_year <- partial(
   scale_x_continuous,
   breaks = seq(0, 3e3, 1),
   minor_breaks = NULL,
+  labels = ~str_replace_all(.x, "^20", "'"),
+  name = ""
+)
+
+scale_x_year_discrete <- partial(
+  scale_x_discrete,
+  # breaks = seq(0, 3e3, 1),
+  # minor_breaks = NULL,
+  labels = ~str_replace_all(.x, "^20", "'"),
   name = ""
 )
 
@@ -91,6 +100,7 @@ scale_colorfill_gdq <- partial(
 knitr::opts_chunk$set(
   cache.path = "cache",
   fig.path = "plots/",
+  fig.width = 8,
   fig.retina = 2,
   error = FALSE,
   warning = FALSE,

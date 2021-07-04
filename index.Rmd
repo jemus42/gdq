@@ -65,7 +65,7 @@ gdq_donation_totals %>%
     minor_breaks = seq(-2e6, 2e6, 5e4)
   ) +
   facet_wrap(~gdq) +
-  scale_colorfill_gdq(guide = FALSE) +
+  scale_colorfill_gdq(guide = "none") +
   labs(
     title = "Games Done Quick: Donation Totals",
     subtitle = "Per-GDQ donation totals: Difference from previous event"
@@ -160,10 +160,11 @@ donations %>%
   ggplot(aes(x = year, y = amount, color = gdq, fill = gdq)) +
   geom_boxplot(alpha = .75) +
   stat_summary(
-    fun.y = "mean", geom = "point", shape = 21, size = 2, 
+    fun = "mean", geom = "point", shape = 21, size = 2, 
     stroke = .6, color = "black",
     position = position_dodge(width = .75)
   ) +
+  scale_x_year_discrete() +
   scale_y_dollar(trans = "log10") +
   scale_colorfill_gdq() +
   minilabs(
@@ -177,7 +178,9 @@ donations %>%
   mutate(
     amount_c = cut(
       amount, breaks = 10^(-2:6), include.lowest = TRUE, 
-      labels = paste0("<=", 10^(-1:6)))
+      labels = paste0("<=", format(
+        10^(-1:6), scientific = FALSE, digits = 0, trim = TRUE, big.mark = ",",
+      )))
   ) %>% 
   ggplot(aes(x = amount_c, color = gdq, fill = gdq)) +
   geom_bar(alpha = .75) +
@@ -264,7 +267,7 @@ runs %>%
   ggplot(aes(x = year, y = run_time, color = gdq, fill = gdq)) +
   geom_boxplot(alpha = .5) +
   stat_summary(
-    fun.y = mean, geom = "point", position = position_dodge2(width = .75),
+    fun = mean, geom = "point", position = position_dodge2(width = .75),
     shape = 21, color = "black", stroke = .5, key_glyph = "rect"
   ) +
   coord_flip() +
@@ -295,7 +298,7 @@ runs %>%
   ggplot(aes(x = year, y = run_time, color = gdq, fill = gdq)) +
   geom_boxplot(alpha = .5) +
   stat_summary(
-    fun.y = mean, geom = "point", position = position_dodge2(width = .75),
+    fun = mean, geom = "point", position = position_dodge2(width = .75),
     shape = 21, color = "black", stroke = .5, key_glyph = "rect"
   ) +
   coord_flip() +
@@ -325,7 +328,7 @@ runs %>%
     binwidth = .5 * 60^2, position = "dodge", alpha = .5
   ) +
   facet_wrap(~gdq) +
-  scale_colorfill_gdq(guide = FALSE) +
+  scale_colorfill_gdq(guide = "none") +
   labs(
     title = p_title_r,
     subtitle = "Number of runs in 30min intervals across all events",
@@ -469,7 +472,7 @@ The oldest and newest games:
 runs %>%
   filter(game_year %in% c(min(game_year), max(game_year))) %>%
   select(run, platform, players, run_time, event) %>%
-  rename_all(~str_to_title(.x)) %>%
+  rename_all(~str_to_title(.x) %>% str_remove_all("_")) %>%
   kable() %>%
   kable_styling()
 ```
