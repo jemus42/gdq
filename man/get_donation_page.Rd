@@ -7,7 +7,7 @@
 get_donation_page(event = "sgdq2021", page = 1)
 }
 \arguments{
-\item{event}{Event such as \code{"agdq2019"}, lower case.}
+\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
 
 \item{page}{Page to get, a single number.}
 }

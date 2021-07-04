@@ -7,7 +7,7 @@
 get_page_count(event = "sgdq2021")
 }
 \arguments{
-\item{event}{Event such as \code{"agdq2019"}, lower case.}
+\item{event}{Event such as \code{"AGDQ2021"}, case insensitive.}
 }
 \value{
 Page count as a \code{numeric(1)}.

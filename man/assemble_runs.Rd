@@ -12,7 +12,7 @@ assemble_runs(events = NULL, cache = TRUE)
 \item{cache}{\verb{[TRUE]} Save aggregated dataset at \code{"data/all_donations.rds"}.}
 }
 \value{
-A tibble
+A \link[tibble:tibble]{tibble}.
 }
 \description{
 Update all runs from GDQ tracker

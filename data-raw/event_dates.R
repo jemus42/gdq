@@ -35,6 +35,6 @@ event_dates <- tribble(
 
 event_index <- gdqdonations::tracker_run_index()
 
-events <- dplyr::left_join(event_dates, event_index, by = "event")
+event_index <- dplyr::left_join(event_dates, event_index, by = "event")
 
-usethis::use_data(events, overwrite = TRUE, compress = "xz", version = 3)
+usethis::use_data(event_index, overwrite = TRUE, compress = "xz", version = 3)

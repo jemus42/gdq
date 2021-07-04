@@ -1,6 +1,6 @@
 #' Get page count of GDQ tracker
 #'
-#' @param event Event such as `"agdq2019"`, lower case.
+#' @param event Event such as `"AGDQ2021"`, case insensitive.
 #'
 #' @return Page count as a `numeric(1)`.
 #' @export
@@ -35,22 +35,20 @@ get_page_count <- function(event = "sgdq2021") {
 #' }
 get_donation_page <- function(event = "sgdq2021", page = 1) {
 
-  if (event %in% c("agdq2021", "sgdq2021")) event <- toupper(event)
-
-  url_base <- "https://gamesdonequick.com/tracker/donations/"
-  url <- paste0(url_base, event, "?page=", page)
+  event <- toupper(event)
+  url <- events$tracker_donation_url[events$event == event]
+  url <- paste0(gdq_base_url, url, "?page=", page)
 
   rvest::read_html(url) %>%
     rvest::html_table() %>%
-    magrittr::extract2(1) %>%
+    purrr::pluck(1) %>%
     purrr::set_names(c("name", "time", "amount", "comment")) %>%
     dplyr::mutate(
       time = lubridate::ymd_hms(time),
       amount = stringr::str_remove(amount, "\\$"),
       amount = stringr::str_remove(amount, ","),
       amount = as.numeric(amount)
-    ) %>%
-    as_tibble()
+    )
 }
 
 #' Get all donations for an event from the tracker
@@ -58,7 +56,7 @@ get_donation_page <- function(event = "sgdq2021", page = 1) {
 #' @inheritParams get_page_count
 #' @param delay `[0.5]`: Seconds to wait between pages. Don't annoy the webserver.
 #'
-#' @return A tibble
+#' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -67,7 +65,7 @@ get_donation_page <- function(event = "sgdq2021", page = 1) {
 #' }
 get_donations <- function(event = "sgdq2021", delay = .5) {
 
-  #if (event %in% c("agdq2021", "sgdq2021")) event <- toupper(event)
+  event <- toupper(event)
 
   pages <- seq_len(get_page_count(event = event))
 
@@ -93,7 +91,7 @@ get_donations <- function(event = "sgdq2021", delay = .5) {
 #' @param events `[NULL]` Optional vector of file paths to individual `.rds` files.
 #' @param cache `[TRUE]` Save aggregated dataset at `"data/all_donations.rds"`.
 #'
-#' @return A tibble
+#' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -154,8 +152,11 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 #' @param events Events such as `"agdq2019"`, lower case.
 #' @param ignore_cache `[FALSE]`: If `TRUE`, ignore cached file and re-retrieve data.
 #' @param in_progress `[FALSE]`: If `TRUE`, donations for in-progress events are retrieved.
+#' @param sound `[TRUE]`: If `TRUE`, `beepr::beep(2)` is played after each event's
+#' donations have been retrieved. Since scraping *will* take a long time for full
+#' events, this seemed like a good idea.
 #'
-#' @return Invisibly: tibble of donations.
+#' @return Invisibly: A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -166,24 +167,31 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 #'   in_progress = TRUE
 #' )
 #' }
-update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress = FALSE) {
+update_tracker_donations <- function(events, ignore_cache = FALSE, in_progress = FALSE, sound = TRUE) {
   prg <- cli::cli_progress_bar(name = "Getting donations", total = length(events))
+  events <- toupper(events)
 
   donations <- purrr::walk(events, ~{
     cli::cli_progress_update(id = prg)
     cli::cli_alert_info("Current event: {toupper(.x)}")
 
-    out_file <- file.path("data/gamesdonequick.com/donations/", paste0("donations_", .x, ".rds"))
+    out_file <- fs::path(
+      "data/gamesdonequick.com/donations/",
+      paste0("donations_", tolower("AGDQ20201"), ".rds")
+    )
 
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 
     if (!in_progress) {
-      if (Sys.Date() < event_dates$end[tolower(event_dates$event) == .x]) return(tibble::tibble())
+      if (Sys.Date() < event_index$end[event_index$event == .x]) {
+        return(tibble::tibble())
+      }
     }
 
     get_donations(event = .x) %>%
       saveRDS(file = out_file)
-    beepr::beep(2)
+
+    if (sound) beepr::beep(2)
   })
 
   cli::cli_alert_success("Got donations!")

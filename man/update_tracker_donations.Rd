@@ -4,7 +4,12 @@
 \alias{update_tracker_donations}
 \title{Update donation data from GDQ tracker}
 \usage{
-update_tracker_donations(events, ignore_cache = FALSE, in_progress = FALSE)
+update_tracker_donations(
+  events,
+  ignore_cache = FALSE,
+  in_progress = FALSE,
+  sound = TRUE
+)
 }
 \arguments{
 \item{events}{Events such as \code{"agdq2019"}, lower case.}
@@ -12,9 +17,13 @@ update_tracker_donations(events, ignore_cache = FALSE, in_progress = FALSE)
 \item{ignore_cache}{\verb{[FALSE]}: If \code{TRUE}, ignore cached file and re-retrieve data.}
 
 \item{in_progress}{\verb{[FALSE]}: If \code{TRUE}, donations for in-progress events are retrieved.}
+
+\item{sound}{\verb{[TRUE]}: If \code{TRUE}, \code{beepr::beep(2)} is played after each event's
+donations have been retrieved. Since scraping \emph{will} take a long time for full
+events, this seemed like a good idea.}
 }
 \value{
-Invisibly: tibble of donations.
+Invisibly: A \link[tibble:tibble]{tibble}.
 }
 \description{
 Update donation data from GDQ tracker

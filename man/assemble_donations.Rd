@@ -12,7 +12,7 @@ assemble_donations(events = NULL, cache = TRUE)
 \item{cache}{\verb{[TRUE]} Save aggregated dataset at \code{"data/all_donations.rds"}.}
 }
 \value{
-A tibble
+A \link[tibble:tibble]{tibble}.
 }
 \description{
 Aggregate all donation data from the tracker in one file

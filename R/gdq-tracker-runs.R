@@ -2,7 +2,7 @@
 #'
 #' @inheritParams get_page_count
 #'
-#' @return A tibble
+#' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -11,9 +11,10 @@
 #' }
 get_runs <- function(event) {
 
-  if (event %in% c("agdq2021", "sgdq2021")) event <- toupper(event)
+  event <- toupper(event)
+  url <- events$tracker_run_url[events$event == event]
 
-  rvest::read_html(paste0("https://gamesdonequick.com/tracker/runs/", event)) %>%
+  rvest::read_html(paste0("https://gamesdonequick.com/", url)) %>%
     rvest::html_table() %>%
     purrr::pluck(1) %>%
     purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) %>%
@@ -33,7 +34,7 @@ get_runs <- function(event) {
 #'
 #' @inheritParams assemble_donations
 #'
-#' @return A tibble
+#' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -78,16 +79,17 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
 #' }
 update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALSE) {
   prg <- cli::cli_progress_bar(name = "Getting runs", total = length(events))
+  events <- toupper(events)
 
   purrr::walk(events, ~{
     cli::cli_progress_update(id = prg)
-    cli::cli_text("Current event: {toupper(.x)}")
-    out_file <- paste0("data/gamesdonequick.com/runs/runs_", .x, ".rds")
+    cli::cli_text("Current event: {.x}")
+    out_file <- paste0("data/gamesdonequick.com/runs/runs_", tolower(.x), ".rds")
 
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 
     if (!in_progress) {
-      if (Sys.Date() < event_dates$end[tolower(event_dates$event) == .x]) return(tibble::tibble())
+      if (Sys.Date() < event_index$end[event_index$event == .x]) return(tibble::tibble())
     }
 
     get_runs(event = .x) %>%
