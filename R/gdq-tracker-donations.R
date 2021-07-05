@@ -13,7 +13,7 @@ get_page_count <- function(event = "latest") {
   if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
-  url <- events$tracker_donation_url[events$event == event]
+  url <- event_index$tracker_donation_url[event_index$event == event]
   url <- paste0(gdq_base_url, url)
 
   rvest::read_html(url) %>%
@@ -40,7 +40,7 @@ get_donation_page <- function(event = "latest", page = 1) {
   if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
-  url <- events$tracker_donation_url[events$event == event]
+  url <- event_index$tracker_donation_url[event_index$event == event]
   url <- paste0(gdq_base_url, url, "?page=", page)
 
   rvest::read_html(url) %>%

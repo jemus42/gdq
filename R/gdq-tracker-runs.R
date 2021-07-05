@@ -14,7 +14,7 @@ get_runs <- function(event = "latest") {
   if (event == "latest") event <- event_index$event[nrow(event_index)]
 
   event <- toupper(event)
-  url <- events$tracker_run_url[events$event == event]
+  url <- event_index$tracker_run_url[event_index$event == event]
 
   rvest::read_html(paste0("https://gamesdonequick.com/", url)) %>%
     rvest::html_table() %>%
