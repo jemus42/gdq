@@ -9,3 +9,4 @@ attic
 
 data/gamesdonequick.com/
 data/gdqvods.com/
+data/*.rds
