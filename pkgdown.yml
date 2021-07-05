@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  articles/all-events: all-events.html
+  articles/by-event: by-event.html
+last_built: 2021-07-05T08:16Z
+
