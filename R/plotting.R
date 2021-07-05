@@ -31,11 +31,6 @@ euro_scale <- function(
                 trim = TRUE, ...)
 }
 
-scales::unit_format(
-  suffix = "\u20ac", sep = "", big.mark = ".",
-  decimal.mark = ",", accuracy = 4
-)
-
 #' @export
 #' @param conversion_rate `[0.84]`: Manually set current dollar to euro
 #' conversion rate.
