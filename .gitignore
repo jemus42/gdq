@@ -2,12 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+..bfg-report
 
-plots
-site_libs
-_site
 experiment.R
-docs
+attic
 
 data/gamesdonequick.com/
 data/gdqvods.com/
