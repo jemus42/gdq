@@ -13,4 +13,7 @@ event_index
 \description{
 GDQ Event Index
 }
+\examples{
+tibble::glimpse(event_index)
+}
 \keyword{datasets}
