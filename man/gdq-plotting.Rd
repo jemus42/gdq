@@ -15,7 +15,7 @@
 \usage{
 theme_gdq(legend.position = "top", ...)
 
-euro_scale(x)
+euro_scale(accuracy = 4, suffix = "€", big.mark = ".", decimal.mark = ",", ...)
 
 euro_axis(conversion_rate = 0.84)
 
@@ -36,11 +36,16 @@ scale_colorfill_gdq(...)
 
 \item{...}{passed to \code{\link[ggplot2:theme]{ggplot2::theme}} or other components.}
 
-\item{x}{Numeric value to format in "123.456,5\\u20ac" format.}
+\item{accuracy, suffix, big.mark, decimal.mark}{Passed to \code{\link[scales:label_number]{scales::number_format()}}.}
 
 \item{conversion_rate}{\verb{[0.84]}: Manually set current dollar to euro
 conversion rate.}
 }
+\value{
+A \code{function} as created by \code{\link[scales:label_number]{scales::number_format()}}
+}
 \description{
 Plotting helpers
+
+A scale for Euros
 }

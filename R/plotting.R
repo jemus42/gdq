@@ -17,10 +17,21 @@ theme_gdq <- function(legend.position = "top", ...) {
 }
 
 ## Plot parts ----
+#' A scale for Euros
+#'
 #' @export
-#' @param x Numeric value to format in "123.456,5\\u20ac" format.
+#' @param accuracy,suffix,big.mark,decimal.mark Passed to [`scales::number_format()`].
 #' @rdname gdq-plotting
-euro_scale <- scales::unit_format(
+#' @return A `function` as created by [`scales::number_format()`]
+euro_scale <- function(
+  accuracy = 4, suffix = "\u20ac", big.mark = ".",  decimal.mark = ",", ...
+  ) {
+  scales::number_format(accuracy = accuracy, scale = 1, prefix = "",
+                suffix = suffix, big.mark = big.mark, decimal.mark = decimal.mark,
+                trim = TRUE, ...)
+}
+
+scales::unit_format(
   suffix = "\u20ac", sep = "", big.mark = ".",
   decimal.mark = ",", accuracy = 4
 )
