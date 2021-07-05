@@ -1,0 +1,76 @@
+---
+title: "All Events"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+showtextdb::font_install(
+  font_desc = list(
+    showtext_name = "Cubano",
+    font_ext = "ttf",
+    regular_url = "https://dump.jemu.name/cubano-regular-webfont.ttf"
+  )
+)
+
+showtextdb::font_install(showtextdb::google_fonts("Fira Sans Condensed"))
+```
+
+```{r setup}
+library(gdqdonations)
+library(dplyr)
+library(ggplot2)
+
+theme_gdqd <- function(grid = "Yy", legend.position = "top", ...) {
+  firasans::theme_ipsum_fsc(
+    grid = grid,
+    plot_margin = margin(5, 5, 5, 5)
+  ) +
+    theme(
+      legend.position = legend.position,
+      panel.grid.major = element_line(colour = "#aaaaaa"),
+      plot.title.position = "plot",
+      ...
+    )
+}
+
+
+donations <- readRDS(here::here("data/all_donations.rds"))
+runs <- readRDS(here::here("data/gdqvods.com/gdqvods_runs.rds"))
+```
+
+```{r}
+gdq_donation_totals <-
+  donations %>%
+  group_by(event) %>%
+  summarize(
+    total = sum(amount),
+    avg = mean(amount),
+    gdq = unique(gdq),
+    year = unique(year)
+  ) %>%
+  arrange(as.numeric(year)) %>%
+  mutate(cumtot = cumsum(total))
+```
+
+```{r gdq-donation-totals, fig.showtext=TRUE}
+gdq_donation_totals %>%
+  ggplot(aes(x = year, y = total, fill = gdq)) +
+  geom_col(position = position_dodge2(preserve = "single"), alpha = .75) +
+  scale_x_year_discrete() +
+  scale_y_currency(
+    breaks = seq(0, 10e6, 5e5),
+    minor_breaks = seq(0, 10e6, 2.5e5)
+  ) +
+  scale_colorfill_gdq() +
+  labs(
+    title = "Games Done Quick: Donation Totals",
+    subtitle = "Donation totals as per the official tracker page"
+  ) +
+  theme_gdq()
+```
+
+
