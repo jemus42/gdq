@@ -24,7 +24,7 @@ euro_scale <- scales::unit_format(
 )
 #' @export
 #' @rdname plotting
-euro_axis <- function(...) ggplot2::dup_axis(~.*.89, labels = euro_scale, name = NULL, ...)
+euro_axis <- function(...) ggplot2::dup_axis(~ . * .84, labels = euro_scale, name = NULL, ...)
 
 p_title <- "Games Done Quick: Donation Breakdown"
 p_title_r <- "Games Done Quick: Runs"
@@ -35,13 +35,6 @@ p_caption <- glue::glue("Donation data from gamesdonequick.com/tracker, ",
                         "@jemus42 – gdq.tadaa-data.de")
 
 # Setting/overriding ggplot2 components ----
-#' @export
-#' @rdname plotting
-labs <- purrr::partial(
-  ggplot2::labs,
-  caption = p_caption
-)
-
 
 #' @export
 #' @rdname plotting
