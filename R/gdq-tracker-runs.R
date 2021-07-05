@@ -52,7 +52,15 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
     )
   }
 
-  runs <- purrr::map_df(events, readRDS) %>%
+  runs <- purrr::map_df(events, ~{
+    readRDS(.x) %>%
+      dplyr::mutate(
+        run = as.character(.data$run),
+        players = as.character(.data$players),
+        description = as.character(.data$description),
+        bidwars = as.character(.data$bidwars)
+      )
+    }) %>%
     dplyr::arrange(run_start)
 
   if (cache) {
