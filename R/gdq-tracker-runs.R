@@ -11,7 +11,9 @@
 #' }
 get_runs <- function(event = "latest") {
 
-  if (event == "latest") event <- event_index$event[nrow(event_index)]
+  if (event == "latest") {
+    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+  }
 
   event <- toupper(event)
   url <- event_index$tracker_run_url[event_index$event == event]

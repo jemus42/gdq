@@ -37,10 +37,8 @@ event_index <- gdqdonations::tracker_run_index()
 
 event_index <- dplyr::left_join(event_dates, event_index, by = "event")
 
-#usethis::use_data(event_index, overwrite = TRUE, compress = "xz", version = 3)
 usethis::use_data(
   event_index, overwrite = TRUE,
-  compress = "xz", version = 3,
-  internal = TRUE
-  )
+  compress = "xz", version = 3
+)
 

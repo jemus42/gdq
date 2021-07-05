@@ -12,10 +12,12 @@
 #' }
 get_page_count <- function(event = "latest") {
 
-  if (event == "latest") event <- event_index$event[nrow(event_index)]
+  if (event == "latest") {
+    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+  }
 
   event <- toupper(event)
-  url <- event_index$tracker_donation_url[event_index$event == event]
+  url <- gdqdonations::event_index$tracker_donation_url[gdqdonations::event_index$event == event]
   url <- paste0(gdq_base_url, url)
 
   rvest::read_html(url) %>%
@@ -39,10 +41,12 @@ get_page_count <- function(event = "latest") {
 #' }
 get_donation_page <- function(event = "latest", page = 1) {
 
-  if (event == "latest") event <- event_index$event[nrow(event_index)]
+  if (event == "latest") {
+    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+  }
 
   event <- toupper(event)
-  url <- event_index$tracker_donation_url[event_index$event == event]
+  url <- gdqdonations::event_index$tracker_donation_url[gdqdonations::event_index$event == event]
   url <- paste0(gdq_base_url, url, "?page=", page)
 
   rvest::read_html(url) %>%
@@ -71,7 +75,9 @@ get_donation_page <- function(event = "latest", page = 1) {
 #' }
 get_donations <- function(event = "latest", delay = .5) {
 
-  if (event == "latest") event <- event_index$event[nrow(event_index)]
+  if (event == "latest") {
+    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+  }
 
   event <- toupper(event)
   pages <- seq_len(get_page_count(event = event))
@@ -130,7 +136,7 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
     dplyr::arrange(.data$time) %>%
     #mutate(day_num = forcats::fct_inorder(day_num, ordered = TRUE)) %>%
     dplyr::left_join(
-      event_index,
+      gdqdonations::event_index,
       by = "event"
     ) %>%
     dplyr::arrange(.data$time) %>%
@@ -193,7 +199,7 @@ update_tracker_donations <- function(
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 
     if (!in_progress) {
-      if (Sys.Date() < event_index$end[event_index$event == .x]) {
+      if (Sys.Date() < gdqdonations::event_index$end[gdqdonations::event_index$event == .x]) {
         return(tibble::tibble())
       }
     }
