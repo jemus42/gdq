@@ -18,7 +18,7 @@ theme_gdq <- function(legend.position = "top", ...) {
 
 ## Plot parts ----
 #' @export
-#' @param x Numeric value to format in "123.456,5 \\u20ac" format.
+#' @param x Numeric value to format in "123.456,5\\u20ac" format.
 #' @rdname gdq-plotting
 euro_scale <- scales::unit_format(
   suffix = "\u20ac", sep = "", big.mark = ".",
@@ -26,10 +26,11 @@ euro_scale <- scales::unit_format(
 )
 
 #' @export
-#' @param ... passed to [`ggplot2::dup_axis()`]
+#' @param conversion_rate `[0.84]`: Manually set current dollar to euro
+#' conversion rate.
 #' @rdname gdq-plotting
-euro_axis <- function(...) {
-  ggplot2::dup_axis(~ . * .84, labels = euro_scale, name = NULL, ...)
+euro_axis <- function(conversion_rate = .84) {
+  ggplot2::dup_axis(~ . * conversion_rate, labels = euro_scale, name = NULL)
 }
 
 # Setting/overriding ggplot2 components ----
@@ -96,14 +97,3 @@ scale_colorfill_gdq <- function(...) {
     ...
   )
 }
-
-
-# showtextdb::font_install(
-#   font_desc = list(
-#     showtext_name = "Cubano",
-#     font_ext = "ttf",
-#     regular_url = "https://dump.jemu.name/cubano-regular-webfont.ttf"
-#   )
-# )
-
-# showtextdb::font_install(showtextdb::google_fonts("Fira Sans Condensed"))

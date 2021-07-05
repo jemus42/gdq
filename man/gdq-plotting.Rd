@@ -17,7 +17,7 @@ theme_gdq(legend.position = "top", ...)
 
 euro_scale(x)
 
-euro_axis(...)
+euro_axis(conversion_rate = 0.84)
 
 scale_x_year(...)
 
@@ -34,9 +34,12 @@ scale_colorfill_gdq(...)
 \arguments{
 \item{legend.position}{\verb{["top"]}: See \code{\link[ggplot2:theme]{ggplot2::theme()}}}
 
-\item{...}{passed to \code{\link[ggplot2:sec_axis]{ggplot2::dup_axis()}}}
+\item{...}{passed to \code{\link[ggplot2:theme]{ggplot2::theme}} or other components.}
 
-\item{x}{Numeric value to format in "123.456,5 \\u20ac" format.}
+\item{x}{Numeric value to format in "123.456,5\\u20ac" format.}
+
+\item{conversion_rate}{\verb{[0.84]}: Manually set current dollar to euro
+conversion rate.}
 }
 \description{
 Plotting helpers
