@@ -8,3 +8,6 @@ site_libs
 _site
 experiment.R
 docs
+
+data/gamesdonequick.com/
+data/gdqvods.com/
