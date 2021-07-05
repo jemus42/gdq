@@ -17,5 +17,7 @@ Page count as a \code{numeric(1)}.
 Get page count of GDQ tracker
 }
 \examples{
+\dontrun{
 get_page_count(event = "latest")
+}
 }

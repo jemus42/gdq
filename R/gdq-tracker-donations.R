@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' get_page_count(event = "latest")
+#' }
 get_page_count <- function(event = "latest") {
 
   if (event == "latest") event <- event_index$event[nrow(event_index)]

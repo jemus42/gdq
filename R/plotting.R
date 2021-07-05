@@ -20,7 +20,7 @@ theme_gdq <- function(legend.position = "top", ...) {
 #' @export
 #' @rdname plotting
 euro_scale <- scales::unit_format(
-  suffix = "€", sep = "", big.mark = ".",
+  suffix = "\u20ac", sep = "", big.mark = ".",
   decimal.mark = ",", accuracy = 4
 )
 #' @export
@@ -85,7 +85,7 @@ scale_x_dollar <- purrr::partial(
 #' @rdname plotting
 scale_colorfill_gdq <- purrr::partial(
   ggplot2::scale_fill_manual,
-  values = c("AGDQ" = "#377EB8", "SGDQ" = "#E41A1C"),
+  values = c("AGDQ" = "#1D3461", "SGDQ" = "#A30000"),
   aesthetics = c("color", "fill"),
   name = ""
 )
