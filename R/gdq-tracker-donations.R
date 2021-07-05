@@ -125,20 +125,21 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
       ) %>%
       as_tibble()
   }) %>%
-    dplyr::arrange(time) %>%
+    dplyr::arrange(.data$time) %>%
     #mutate(day_num = forcats::fct_inorder(day_num, ordered = TRUE)) %>%
     dplyr::left_join(
       event_index,
       by = "event"
     ) %>%
-    dplyr::arrange(time) %>%
+    dplyr::arrange(.data$time) %>%
     dplyr::mutate(
-      day = lubridate::wday(time, label = TRUE),
-      day_num = paste0(day, " (", lubridate::day(time), ".)"),
-      year = stringr::str_extract(event, "\\d+"),
-      gdq = stringr::str_remove(event, "\\d+"),
-      amount_c = cut(amount, breaks = amount_breaks, labels = amount_c_labels),
-      time_rel = ((start %--% time) / lubridate::dminutes(1)) / ((start %--% end)/lubridate::dminutes(1))
+      day = lubridate::wday(.data$time, label = TRUE),
+      day_num = paste0(.data$day, " (", lubridate::day(.data$time), ".)"),
+      year = stringr::str_extract(.data$event, "\\d+"),
+      gdq = stringr::str_remove(.data$event, "\\d+"),
+      amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels),
+      time_rel = ((.data$start %--% .data$time) / lubridate::dminutes(1)) /
+        ((.data$start %--% .data$end)/lubridate::dminutes(1))
     ) %>%
     dplyr::select(-start, -end, -event_duration)
 

@@ -1,8 +1,9 @@
 #' Plotting helpers
-#'
+#' @param legend.position `["top"]`: See [`ggplot2::theme()`]
+#' @param ... passed to [`ggplot2::theme`]
 #' @export
 #' @name plotting
-theme_gdq <- function(grid = "Yy", legend.position = "top", ...) {
+theme_gdq <- function(legend.position = "top", ...) {
   ggplot2::theme_minimal(base_family = "Cubano") +
     ggplot2::theme(
       axis.text = ggplot2::element_text(family = "Fira Sans Condensed"),
@@ -23,6 +24,7 @@ euro_scale <- scales::unit_format(
   decimal.mark = ",", accuracy = 4
 )
 #' @export
+#' @param ... passed to [`ggplot2::dup_axis()`]
 #' @rdname plotting
 euro_axis <- function(...) ggplot2::dup_axis(~ . * .84, labels = euro_scale, name = NULL, ...)
 

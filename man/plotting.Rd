@@ -13,7 +13,7 @@
 \alias{scale_colorfill_gdq}
 \title{Plotting helpers}
 \usage{
-theme_gdq(grid = "Yy", legend.position = "top", ...)
+theme_gdq(legend.position = "top", ...)
 
 euro_scale(x)
 
@@ -30,6 +30,11 @@ scale_y_dollar(...)
 scale_x_dollar(...)
 
 scale_colorfill_gdq(...)
+}
+\arguments{
+\item{legend.position}{\verb{["top"]}: See \code{\link[ggplot2:theme]{ggplot2::theme()}}}
+
+\item{...}{passed to \code{\link[ggplot2:sec_axis]{ggplot2::dup_axis()}}}
 }
 \description{
 Plotting helpers
