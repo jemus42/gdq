@@ -37,9 +37,8 @@ theme_gdqd <- function(grid = "Yy", legend.position = "top", ...) {
     )
 }
 
-
-donations <- readRDS(here::here("data/all_donations.rds"))
-runs <- readRDS(here::here("data/gdqvods.com/gdqvods_runs.rds"))
+donations <- gdqdonations::all_donations
+runs <- gdqdonations::all_runs
 ```
 
 ```{r}
