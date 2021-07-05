@@ -5,7 +5,6 @@
 \alias{theme_gdq}
 \alias{euro_scale}
 \alias{euro_axis}
-\alias{labs}
 \alias{scale_x_year}
 \alias{scale_x_year_discrete}
 \alias{scale_y_currency}
@@ -19,8 +18,6 @@ theme_gdq(grid = "Yy", legend.position = "top", ...)
 euro_scale(x)
 
 euro_axis(...)
-
-labs(...)
 
 scale_x_year(...)
 
