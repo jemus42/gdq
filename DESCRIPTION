@@ -9,31 +9,31 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7528-3795"))
 Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 3.6)
+Imports: 
+    beepr,
+    cli,
+    dplyr,
+    forcats,
+    fs,
+    ggplot2,
+    glue,
+    hms,
+    lubridate,
+    magrittr,
+    purrr,
+    rlang (>= 0.1.2),
+    rvest,
+    scales,
+    stringr,
+    tibble,
+    usethis
+Suggests: 
+    rmarkdown,
+    roxygen2,
+    showtext
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Depends: 
-    R (>= 3.6)
-Imports: 
-    purrr,
-    dplyr,
-    rvest,
-    cli,
-    glue,
-    stringr,
-    forcats,
-    lubridate,
-    tibble,
-    magrittr,
-    fs,
-    usethis,
-    beepr,
-    rlang (>= 0.1.2),
-    hms,
-    scales
-Suggests: 
-    showtext,
-    ggplot2,
-    rmarkdown,
-    roxygen2

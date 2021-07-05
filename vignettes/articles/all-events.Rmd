@@ -5,7 +5,10 @@ title: "All Events"
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE,
+  fig.align = "center",
+  fig.width = 8
 )
 
 showtextdb::font_install(
