@@ -33,5 +33,7 @@ Imports:
     hms,
     scales
 Suggests: 
+    showtext,
+    ggplot2,
     rmarkdown,
     roxygen2
