@@ -12,10 +12,8 @@ License: MIT + file LICENSE
 Depends: 
     R (>= 3.6)
 Imports: 
-    beepr,
     cli,
     dplyr,
-    forcats,
     fs,
     ggplot2,
     glue,
@@ -30,6 +28,7 @@ Imports:
     tibble,
     usethis
 Suggests: 
+    beepr,
     rmarkdown,
     roxygen2,
     showtext

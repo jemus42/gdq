@@ -16,22 +16,22 @@ get_runs <- function(event = "latest") {
   }
 
   event <- toupper(event)
-  url <- event_index$tracker_run_url[event_index$event == event]
+  url <- gdqdonations::event_index$tracker_run_url[gdqdonations::event_index$event == event]
 
   rvest::read_html(paste0("https://gamesdonequick.com/", url)) %>%
     rvest::html_table() %>%
     purrr::pluck(1) %>%
     purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) %>%
     dplyr::mutate(
-      run_start = lubridate::ymd_hms(run_start),
-      run_end = lubridate::ymd_hms(run_end),
-      run_duration_s = as.numeric(difftime(run_end, run_start, units = "secs")),
-      run_duration_hms = hms::hms(seconds = run_duration_s),
+      run_start = lubridate::ymd_hms(.data$run_start),
+      run_end = lubridate::ymd_hms(.data$run_end),
+      run_duration_s = as.numeric(difftime(.data$run_end, .data$run_start, units = "secs")),
+      run_duration_hms = hms::hms(seconds = .data$run_duration_s),
       event = stringr::str_to_upper(stringr::str_extract(stringr::str_to_lower(.env$event), "[as]gdq\\d+")),
       year = stringr::str_extract(.data$event, "\\d+"),
       gdq = stringr::str_remove(.data$event, "\\d+")
     ) %>%
-    dplyr::arrange(run_start)
+    dplyr::arrange(.data$run_start)
 }
 
 #' Update all runs from GDQ tracker
@@ -63,7 +63,7 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
         bidwars = as.character(.data$bidwars)
       )
     }) %>%
-    dplyr::arrange(run_start)
+    dplyr::arrange(.data$run_start)
 
   if (cache) {
     cli::cli_alert_info("Caching run data at {.emph data/all_runs_gdqtracker.rds}")
@@ -97,16 +97,20 @@ update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALS
     cli::cli_text("Current event: {.x}")
 
     out_file <- fs::path(
-      "data/gamesdonequick.com/runs/",
+      getOption("gdq_cache_dir"),
+      "gamesdonequick.com",
       paste0("runs_", tolower(.x), ".rds")
     )
 
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 
     if (!in_progress) {
-      if (Sys.Date() < event_index$end[event_index$event == .x]) return(tibble::tibble())
+      if (Sys.Date() < gdqdonations::event_index$end[gdqdonations::event_index$event == .x]) {
+        return(tibble::tibble())
+      }
     }
 
+    usethis::use_directory(getOption("gdq_cache_dir"))
     get_runs(event = .x) %>%
       saveRDS(out_file)
   })

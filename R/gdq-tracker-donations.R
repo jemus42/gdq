@@ -54,10 +54,10 @@ get_donation_page <- function(event = "latest", page = 1) {
     purrr::pluck(1) %>%
     purrr::set_names(c("name", "time", "amount", "comment")) %>%
     dplyr::mutate(
-      time = lubridate::ymd_hms(time),
-      amount = stringr::str_remove(amount, "\\$"),
-      amount = stringr::str_remove(amount, ","),
-      amount = as.numeric(amount)
+      time = lubridate::ymd_hms(.data$time),
+      amount = stringr::str_remove(.data$amount, "\\$"),
+      amount = stringr::str_remove(.data$amount, ","),
+      amount = as.numeric(.data$amount)
     )
 }
 
@@ -134,7 +134,6 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
       as_tibble()
   }) %>%
     dplyr::arrange(.data$time) %>%
-    #mutate(day_num = forcats::fct_inorder(day_num, ordered = TRUE)) %>%
     dplyr::left_join(
       gdqdonations::event_index,
       by = "event"
@@ -149,7 +148,7 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
       time_rel = ((.data$start %--% .data$time) / lubridate::dminutes(1)) /
         ((.data$start %--% .data$end)/lubridate::dminutes(1))
     ) %>%
-    dplyr::select(-start, -end, -event_duration)
+    dplyr::select(-.data$start, -.data$end, -.data$event_duration)
 
   if (cache) {
     cli::cli_alert_info("Caching donation data at {.emph data/all_donations.rds}")
@@ -192,7 +191,8 @@ update_tracker_donations <- function(
     cli::cli_alert_info("Current event: {toupper(.x)}")
 
     out_file <- fs::path(
-      "data/gamesdonequick.com/donations/",
+      getOption("gdq_cache_dir"),
+      "gamesdonequick.com",
       paste0("donations_", tolower(.x), ".rds")
     )
 
@@ -204,10 +204,11 @@ update_tracker_donations <- function(
       }
     }
 
+    usethis::use_directory(getOption("gdq_cache_dir"))
     get_donations(event = .x, delay = delay) %>%
       saveRDS(file = out_file)
 
-    if (sound) beepr::beep(2)
+    if (sound & requireNamespace("beepr", quietly = TRUE)) beepr::beep(2)
   })
 
   cli::cli_alert_success("Got donations!")
