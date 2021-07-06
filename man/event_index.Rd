@@ -13,7 +13,4 @@ event_index
 \description{
 GDQ Event Index
 }
-\examples{
-event_index
-}
 \keyword{datasets}
