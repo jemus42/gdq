@@ -16,30 +16,7 @@ theme_gdq <- function(legend.position = "top", ...) {
     )
 }
 
-## Plot parts ----
-#' A scale for Euros
-#'
-#' @export
-#' @param accuracy,suffix,big.mark,decimal.mark Passed to [`scales::number_format()`].
-#' @rdname gdq-plotting
-#' @return A `function` as created by [`scales::number_format()`]
-euro_scale <- function(
-  accuracy = 4, suffix = "\u20ac", big.mark = ".",  decimal.mark = ",", ...
-  ) {
-  scales::number_format(accuracy = accuracy, scale = 1, prefix = "",
-                suffix = suffix, big.mark = big.mark, decimal.mark = decimal.mark,
-                trim = TRUE, ...)
-}
-
-#' @export
-#' @param conversion_rate `[0.84]`: Manually set current dollar to euro
-#' conversion rate.
-#' @rdname gdq-plotting
-euro_axis <- function(conversion_rate = .84) {
-  ggplot2::dup_axis(~ . * conversion_rate, labels = euro_scale, name = NULL)
-}
-
-# Setting/overriding ggplot2 components ----
+# ggplot2 scales ----
 
 #' @export
 #' @rdname gdq-plotting
@@ -67,7 +44,14 @@ scale_x_year_discrete <- function(...) {
 scale_y_currency <- function(...) {
   ggplot2::scale_y_continuous(
     labels = scales::dollar_format(),
-    sec.axis = euro_axis(),
+    sec.axis = ggplot2::dup_axis(
+      ~ . * 0.84,
+      labels = scales::unit_format(
+        accuracy = 4,  suffix = "\u20ac",
+        big.mark = ".",  decimal.mark = ","
+      ),
+      name = NULL
+      ),
     name = "",
     ...
   )

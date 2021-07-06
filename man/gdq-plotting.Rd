@@ -3,8 +3,6 @@
 \name{gdq-plotting}
 \alias{gdq-plotting}
 \alias{theme_gdq}
-\alias{euro_scale}
-\alias{euro_axis}
 \alias{scale_x_year}
 \alias{scale_x_year_discrete}
 \alias{scale_y_currency}
@@ -14,10 +12,6 @@
 \title{Plotting helpers}
 \usage{
 theme_gdq(legend.position = "top", ...)
-
-euro_scale(accuracy = 4, suffix = "€", big.mark = ".", decimal.mark = ",", ...)
-
-euro_axis(conversion_rate = 0.84)
 
 scale_x_year(...)
 
@@ -35,17 +29,7 @@ scale_colorfill_gdq(...)
 \item{legend.position}{\verb{["top"]}: See \code{\link[ggplot2:theme]{ggplot2::theme()}}}
 
 \item{...}{passed to \code{\link[ggplot2:theme]{ggplot2::theme}} or other components.}
-
-\item{accuracy, suffix, big.mark, decimal.mark}{Passed to \code{\link[scales:label_number]{scales::number_format()}}.}
-
-\item{conversion_rate}{\verb{[0.84]}: Manually set current dollar to euro
-conversion rate.}
-}
-\value{
-A \code{function} as created by \code{\link[scales:label_number]{scales::number_format()}}
 }
 \description{
 Plotting helpers
-
-A scale for Euros
 }
