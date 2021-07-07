@@ -2,7 +2,6 @@ library(gdqdonations)
 
 usethis::use_directory("data-cache/gamesdonequick.com/")
 
-
 # Make sure previous events are all there
 update_tracker_donations(event_index$event)
 

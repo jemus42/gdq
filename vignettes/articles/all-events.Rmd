@@ -1,5 +1,7 @@
 ---
 title: "All Events"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -12,34 +14,26 @@ knitr::opts_chunk$set(
   fig.showtext = TRUE
 )
 
-showtextdb::font_install(
-  font_desc = list(
-    showtext_name = "Cubano",
-    font_ext = "ttf",
-    regular_url = "https://dump.jemu.name/cubano-regular-webfont.ttf"
+if (!("Cubano" %in% showtextdb::font_installed())) {
+  showtextdb::font_install(
+    font_desc = list(
+      showtext_name = "Cubano",
+      font_ext = "ttf",
+      regular_url = "https://dump.jemu.name/cubano-regular-webfont.ttf"
+    )
   )
-)
+}
 
-showtextdb::font_install(showtextdb::google_fonts("Fira Sans Condensed"))
+if (!("Fira Sans Condensed" %in% showtextdb::font_installed())) {
+  # showtextdb::font_install(showtextdb::google_fonts("Fira Sans Condensed"))
+  sysfonts::font_add_google("Fira Sans Condensed")
+}
 ```
 
 ```{r setup}
 library(gdqdonations)
 library(dplyr)
 library(ggplot2)
-
-theme_gdqd <- function(grid = "Yy", legend.position = "top", ...) {
-  firasans::theme_ipsum_fsc(
-    grid = grid,
-    plot_margin = margin(5, 5, 5, 5)
-  ) +
-    theme(
-      legend.position = legend.position,
-      panel.grid.major = element_line(colour = "#CFCFCF"),
-      plot.title.position = "plot",
-      ...
-    )
-}
 
 donations <- augment_donations(gdqdonations::gdq_donations)
 runs <- gdqdonations::gdq_runs
@@ -76,4 +70,20 @@ gdq_donation_totals %>%
   theme_gdq()
 ```
 
+
+```{r gdq-donations-timeline-per-event, eval=FALSE}
+donations %>%
+  #filter(as.numeric(year) >= 2019) %>% 
+  filter(time_rel >= 0 & time_rel <= 1.2) %>%
+  group_by(event) %>%
+  mutate(
+    amount_total = cumsum(amount)
+  ) %>%
+  # filter(event == "AGDQ2021") %>%
+  # View()
+  ggplot(aes(x = time_rel, y = amount_total, color = year)) +
+  facet_wrap(~gdq) +
+  geom_step() +
+  theme_gdq()
+```
 

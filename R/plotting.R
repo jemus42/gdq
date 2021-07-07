@@ -1,6 +1,7 @@
 #' Plotting helpers
+#'
 #' @param legend.position `["top"]`: See [`ggplot2::theme()`]
-#' @param ... passed to [`ggplot2::theme`] or other components.
+#' @param ... passed to [`ggplot2::theme()`] or other components.
 #' @export
 #' @name gdq-plotting
 theme_gdq <- function(legend.position = "top", ...) {
@@ -8,7 +9,9 @@ theme_gdq <- function(legend.position = "top", ...) {
     ggplot2::theme(
       axis.text = ggplot2::element_text(family = "Fira Sans Condensed"),
       legend.position = legend.position,
-      panel.grid.major = ggplot2::element_line(colour = "#aaaaaa"),
+      legend.background = ggplot2::element_rect(colour = "transparent"),
+      panel.grid.major = ggplot2::element_line(colour = "#CFCFCF"),
+      panel.grid.minor = ggplot2::element_line(colour = "#EFEFEF"),
       plot.title.position = "plot",
       plot.title = ggplot2::element_text(colour = "#00AEEF"),
       plot.subtitle = ggplot2::element_text(colour = "#00AEEF"),

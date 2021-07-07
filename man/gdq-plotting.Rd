@@ -28,7 +28,7 @@ scale_colorfill_gdq(...)
 \arguments{
 \item{legend.position}{\verb{["top"]}: See \code{\link[ggplot2:theme]{ggplot2::theme()}}}
 
-\item{...}{passed to \code{\link[ggplot2:theme]{ggplot2::theme}} or other components.}
+\item{...}{passed to \code{\link[ggplot2:theme]{ggplot2::theme()}} or other components.}
 }
 \description{
 Plotting helpers
