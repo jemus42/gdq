@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aggregated run data — gdq_runs • gdqdonations</title>
+<title>Augment GDQ donation data with additional variables — augment_donations • gdqdonations</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Aggregated run data — gdq_runs" />
-<meta property="og:description" content="All the GDQ runs." />
+<meta property="og:title" content="Augment GDQ donation data with additional variables — augment_donations" />
+<meta property="og:description" content="Augment GDQ donation data with additional variables" />
 
 
 
@@ -118,25 +118,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Aggregated run data</h1>
+    <h1>Augment GDQ donation data with additional variables</h1>
     
-    <div class="hidden name"><code>gdq_runs.Rd</code></div>
+    <div class="hidden name"><code>augment_donations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>All the GDQ runs.</p>
+    <p>Augment GDQ donation data with additional variables</p>
     </div>
 
-    <pre class="usage"><span class='va'>gdq_runs</span></pre>
+    <pre class="usage"><span class='fu'>augment_donations</span><span class='op'>(</span><span class='va'>donations</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>donations</th>
+      <td><p>Donations <code>tibble</code> as returned by <code><a href='assemble_donations.html'>assemble_donations()</a></code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>tbl_df</code> (inherits from <code>tbl</code>, <code>data.frame</code>) with 2773 rows and 11 columns.</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p>A <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code></p>
 
-    <p><code><a href='assemble_runs.html'>assemble_runs()</a></code></p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='assemble_donations.html'>assemble_donations</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>augment_donations</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
