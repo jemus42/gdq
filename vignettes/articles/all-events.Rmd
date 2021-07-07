@@ -35,13 +35,13 @@ theme_gdqd <- function(grid = "Yy", legend.position = "top", ...) {
   ) +
     theme(
       legend.position = legend.position,
-      panel.grid.major = element_line(colour = "#aaaaaa"),
+      panel.grid.major = element_line(colour = "#CFCFCF"),
       plot.title.position = "plot",
       ...
     )
 }
 
-donations <- gdqdonations::gdq_donations
+donations <- augment_donations(gdqdonations::gdq_donations)
 runs <- gdqdonations::gdq_runs
 ```
 

@@ -164,7 +164,7 @@ augment_donations <- function(donations) {
   donations %>%
     dplyr::left_join(
       gdqdonations::event_index %>%
-        select("event", "start", "end"),
+        dplyr::select("event", "start", "end"),
       by = "event"
     ) %>%
       dplyr::arrange(.data$time) %>%
