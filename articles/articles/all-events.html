@@ -98,19 +98,6 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="va">theme_gdqd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">grid</span> <span class="op">=</span> <span class="st">"Yy"</span>, <span class="va">legend.position</span> <span class="op">=</span> <span class="st">"top"</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">firasans</span><span class="fu">::</span><span class="fu">theme_ipsum_fsc</span><span class="op">(</span>
-    grid <span class="op">=</span> <span class="va">grid</span>,
-    plot_margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>
-      legend.position <span class="op">=</span> <span class="va">legend.position</span>,
-      panel.grid.major <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"#CFCFCF"</span><span class="op">)</span>,
-      plot.title.position <span class="op">=</span> <span class="st">"plot"</span>,
-      <span class="va">...</span>
-    <span class="op">)</span>
-<span class="op">}</span>
-
 <span class="va">donations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/augment_donations.html">augment_donations</a></span><span class="op">(</span><span class="fu">gdqdonations</span><span class="fu">::</span><span class="va"><a href="../../reference/gdq_donations.html">gdq_donations</a></span><span class="op">)</span>
 <span class="va">runs</span> <span class="op">&lt;-</span> <span class="fu">gdqdonations</span><span class="fu">::</span><span class="va"><a href="../../reference/gdq_runs.html">gdq_runs</a></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -141,6 +128,20 @@
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../../reference/gdq-plotting.html">theme_gdq</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="all-events_files/figure-html/gdq-donation-totals-1.png" width="768" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">donations</span> <span class="op">%&gt;%</span>
+  <span class="co">#filter(as.numeric(year) &gt;= 2019) %&gt;% </span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">time_rel</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">time_rel</span> <span class="op">&lt;=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">event</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
+    amount_total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">amount</span><span class="op">)</span>
+  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="co"># filter(event == "AGDQ2021") %&gt;%</span>
+  <span class="co"># View()</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time_rel</span>, y <span class="op">=</span> <span class="va">amount_total</span>, color <span class="op">=</span> <span class="va">year</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">gdq</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../../reference/gdq-plotting.html">theme_gdq</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
