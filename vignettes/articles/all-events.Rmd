@@ -8,7 +8,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   warning = FALSE,
   fig.align = "center",
-  fig.width = 8
+  fig.width = 8,
+  fig.showtext = TRUE
 )
 
 showtextdb::font_install(
@@ -40,8 +41,8 @@ theme_gdqd <- function(grid = "Yy", legend.position = "top", ...) {
     )
 }
 
-donations <- gdqdonations::all_donations
-runs <- gdqdonations::all_runs
+donations <- gdqdonations::gdq_donations
+runs <- gdqdonations::gdq_runs
 ```
 
 ```{r}
@@ -58,7 +59,7 @@ gdq_donation_totals <-
   mutate(cumtot = cumsum(total))
 ```
 
-```{r gdq-donation-totals, fig.showtext=TRUE}
+```{r gdq-donation-totals}
 gdq_donation_totals %>%
   ggplot(aes(x = year, y = total, fill = gdq)) +
   geom_col(position = position_dodge2(preserve = "single"), alpha = .75) +

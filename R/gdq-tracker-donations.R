@@ -114,7 +114,10 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 
   if (is.null(events)) {
     events <- fs::dir_ls(
-      "data/gamesdonequick.com/donations/",
+      fs::path(
+        getOption("gdq_cache_dir"),
+        "gamesdonequick.com"
+      ),
       regexp = "donations_[as]gdq\\d+\\.rds"
     )
   }
@@ -130,8 +133,7 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
       dplyr::mutate(
         event = stringr::str_extract(.x, "[as]gdq\\d{4}") %>%
           stringr::str_to_upper()
-      ) %>%
-      as_tibble()
+      )
   }) %>%
     dplyr::arrange(.data$time) %>%
     dplyr::left_join(

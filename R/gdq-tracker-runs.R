@@ -49,7 +49,10 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
 
   if (is.null(events)) {
     events <- fs::dir_ls(
-      "data/gamesdonequick.com/runs/",
+      fs::path(
+        getOption("gdq_cache_dir"),
+        "gamesdonequick.com"
+      ),
       regexp = "runs_[as]gdq\\d+\\.rds"
     )
   }
