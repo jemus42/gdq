@@ -16,4 +16,9 @@ GDQ Event Index
 \note{
 Needs manual updating with each new event
 }
+\examples{
+tibble::glimpse(event_index)
+
+event_index[nrow(event_index), c("event_name", "start", "end")]
+}
 \keyword{datasets}

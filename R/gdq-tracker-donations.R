@@ -122,42 +122,62 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
     )
   }
 
-  amount_breaks <- purrr::map(c(5, 10, 25), ~.x * 10^{0:5}) %>%
+  all_donations <- purrr::map_df(events, ~{
+    readRDS(.x) %>%
+      dplyr::mutate(
+        event = stringr::str_extract(.x, "[as]gdq\\d{4}") %>%
+          stringr::str_to_upper(),
+        .before = "name"
+      )
+  }) %>%
+    dplyr::arrange(.data$time)
+
+
+  if (cache) {
+    cli::cli_alert_info("Caching donation data at {.emph data/all_donations.rds}")
+    saveRDS(all_donations, fs::path(getOption("gdq_cache_dir"), "gdq_donations.rds"))
+  }
+
+  all_donations
+}
+
+#' Augment GDQ donation data with additional variables
+#'
+#' @param donations Donations `tibble` as returned by [`assemble_donations()`].
+#'
+#' @return A [`tibble`][tibble::tibble]
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' assemble_donations() %>%
+#'   augment_donations()
+#' }
+augment_donations <- function(donations) {
+
+  amount_breaks <- purrr::map(c(5, 10, 25), ~ .x * 10^{0:5}) %>%
     purrr::flatten_dbl() %>%
     sort() %>%
     c(0, .)
   amount_c_labels <- paste0("<= ", scales::dollar(amount_breaks[-1]))
 
-  all_donations <- purrr::map_df(events, ~{
-    readRDS(.x) %>%
-      dplyr::mutate(
-        event = stringr::str_extract(.x, "[as]gdq\\d{4}") %>%
-          stringr::str_to_upper()
-      )
-  }) %>%
-    dplyr::arrange(.data$time) %>%
+  donations %>%
     dplyr::left_join(
-      gdqdonations::event_index,
+      gdqdonations::event_index %>%
+        select("event", "start", "end"),
       by = "event"
     ) %>%
-    dplyr::arrange(.data$time) %>%
-    dplyr::mutate(
-      day = lubridate::wday(.data$time, label = TRUE),
-      day_num = paste0(.data$day, " (", lubridate::day(.data$time), ".)"),
-      year = stringr::str_extract(.data$event, "\\d+"),
-      gdq = stringr::str_remove(.data$event, "\\d+"),
-      amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels),
-      time_rel = ((.data$start %--% .data$time) / lubridate::dminutes(1)) /
-        ((.data$start %--% .data$end)/lubridate::dminutes(1))
-    ) %>%
-    dplyr::select(-.data$start, -.data$end, -.data$event_duration)
-
-  if (cache) {
-    cli::cli_alert_info("Caching donation data at {.emph data/all_donations.rds}")
-    saveRDS(all_donations, "data/all_donations.rds")
-  }
-
-  all_donations
+      dplyr::arrange(.data$time) %>%
+      dplyr::mutate(
+        day = lubridate::wday(.data$time, label = TRUE),
+        day_num = paste0(.data$day, " (", lubridate::day(.data$time), ".)"),
+        year = stringr::str_extract(.data$event, "\\d+"),
+        gdq = stringr::str_remove(.data$event, "\\d+"),
+        amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels),
+        time_rel = ((.data$start %--% .data$time) / lubridate::dminutes(1)) /
+          ((.data$start %--% .data$end)/lubridate::dminutes(1))
+      ) %>%
+      dplyr::select(-.data$start, -.data$end)
 }
 
 

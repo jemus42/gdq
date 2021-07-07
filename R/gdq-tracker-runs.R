@@ -70,7 +70,7 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
 
   if (cache) {
     cli::cli_alert_info("Caching run data at {.emph data/all_runs_gdqtracker.rds}")
-    saveRDS(runs, "data/all_runs_gdqtracker.rds")
+    saveRDS(runs, fs::path(getOption("gdq_cache_dir"), "gdq_runs.rds"))
   }
 
   runs

@@ -1,6 +1,4 @@
 ^renv\.lock$
-^data$
-^plots$
 ^renv$
 ^gdqdonations\.Rproj$
 ^\.Rproj\.user$

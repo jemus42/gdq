@@ -7,6 +7,9 @@
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2773 rows and 11 columns.
 }
+\source{
+\code{\link[=assemble_runs]{assemble_runs()}}
+}
 \usage{
 gdq_runs
 }
