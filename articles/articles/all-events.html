@@ -130,18 +130,30 @@
 <p><img src="all-events_files/figure-html/gdq-donation-totals-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">donations</span> <span class="op">%&gt;%</span>
-  <span class="co">#filter(as.numeric(year) &gt;= 2019) %&gt;% </span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">time_rel</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">time_rel</span> <span class="op">&lt;=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">time_rel</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">time_rel</span> <span class="op">&lt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">event</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>amount_total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">amount</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    amount_total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">amount</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># filter(event == "AGDQ2021") %&gt;%</span>
-  <span class="co"># View()</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time_rel</span>, y <span class="op">=</span> <span class="va">amount_total</span>, color <span class="op">=</span> <span class="va">year</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">gdq</span><span class="op">)</span> <span class="op">+</span>
+    year_g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
+    highlight <span class="op">=</span> <span class="va">event</span> <span class="op">==</span> <span class="va">event_index</span><span class="op">$</span><span class="va">event</span><span class="op">[</span><span class="va">event_index</span><span class="op">$</span><span class="va">start</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">event_index</span><span class="op">$</span><span class="va">start</span><span class="op">)</span><span class="op">]</span>
+  <span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time_rel</span>, y <span class="op">=</span> <span class="va">amount_total</span>, color <span class="op">=</span> <span class="va">highlight</span>, group <span class="op">=</span> <span class="va">event</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../../reference/gdq-plotting.html">scale_y_currency</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRUE"</span> <span class="op">=</span> <span class="st">"red"</span>, <span class="st">"FALSE"</span> <span class="op">=</span> <span class="st">"gray"</span><span class="op">)</span>, 
+    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRUE"</span> <span class="op">=</span> <span class="st">"Current Event"</span>, <span class="st">"FALSE"</span> <span class="op">=</span> <span class="st">"Previous events"</span><span class="op">)</span>,
+    name <span class="op">=</span> <span class="st">""</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Current event donation progression"</span>,
+    subtitle <span class="op">=</span> <span class="st">"Compared to previous events, with tim relative to start/end of event"</span>,
+    y <span class="op">=</span> <span class="st">"Cumulative donation total"</span>,
+    x <span class="op">=</span> <span class="st">"Event Progression"</span>
+  <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../../reference/gdq-plotting.html">theme_gdq</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="all-events_files/figure-html/gdq-donations-timeline-per-event-1.png" width="768" style="display: block; margin: auto;"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

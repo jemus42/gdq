@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Update all runs from GDQ tracker — assemble_runs • gdqdonations</title>
+<title>Summarize GDQ tracker run data by event — summarize_runs • gdqdonations</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Update all runs from GDQ tracker — assemble_runs" />
-<meta property="og:description" content="Update all runs from GDQ tracker" />
+<meta property="og:title" content="Summarize GDQ tracker run data by event — summarize_runs" />
+<meta property="og:description" content="Summarize GDQ tracker run data by event" />
 
 
 
@@ -118,37 +118,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Update all runs from GDQ tracker</h1>
+    <h1>Summarize GDQ tracker run data by event</h1>
     
-    <div class="hidden name"><code>assemble_runs.Rd</code></div>
+    <div class="hidden name"><code>summarize_runs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Update all runs from GDQ tracker</p>
+    <p>Summarize GDQ tracker run data by event</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assemble_runs</span><span class='op'>(</span>events <span class='op'>=</span> <span class='cn'>NULL</span>, cache <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>summarize_runs</span><span class='op'>(</span><span class='va'>runs</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>events</th>
-      <td><p><code>[NULL]</code>: Optional vector of file paths to individual <code>.rds</code> files.</p></td>
-    </tr>
-    <tr>
-      <th>cache</th>
-      <td><p><code>[TRUE]</code>: Save aggregated dataset at <code>"data/all_donations.rds"</code>.</p></td>
+      <th>runs</th>
+      <td><p>Run tibble as returned by <code><a href='assemble_runs.html'>assemble_runs()</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a>.</p>
+    
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>assemble_runs</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='assemble_runs.html'>assemble_runs</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarize_runs</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
