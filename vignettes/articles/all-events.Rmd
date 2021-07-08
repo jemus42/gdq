@@ -79,7 +79,7 @@ donations %>%
   ungroup() %>%
   mutate(
     year_g = cut(as.numeric(year), breaks = 4),
-    highlight = event == event_index$event[event_index$start == max(event_index$start)]
+    highlight = event == latest_event()
   ) %>% 
   ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +
   geom_step() +
