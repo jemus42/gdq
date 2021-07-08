@@ -83,6 +83,7 @@ donations %>%
   ) %>% 
   ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +
   geom_step() +
+  scale_x_continuous(labels = scales::percent_format()) +
   scale_y_currency() +
   scale_color_manual(
     values = c("TRUE" = "red", "FALSE" = "gray"), 
@@ -91,7 +92,7 @@ donations %>%
   ) +
   labs(
     title = "Current event donation progression",
-    subtitle = "Compared to previous events, with tim relative to start/end of event",
+    subtitle = "Compared to previous events, with time relative to start/end of event",
     y = "Cumulative donation total",
     x = "Event Progression"
   ) +
