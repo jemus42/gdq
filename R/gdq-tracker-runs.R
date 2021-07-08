@@ -34,6 +34,34 @@ get_runs <- function(event = "latest") {
     dplyr::arrange(.data$run_start)
 }
 
+#' Summarize GDQ tracker run data by event
+#'
+#' @param runs Run tibble as returned by [`assemble_runs()`].
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' assemble_runs() %>%
+#'   summarize_runs()
+#' }
+summarize_runs <- function(runs) {
+  runs %>%
+    dplyr::filter(
+      # AGDQ2013 bonus games (??)
+      run_duration_s > 0,
+      # AGDQ2014 bonus stream
+      run_duration_s <= 250000
+    ) %>%
+    dplyr::group_by(.data$event) %>%
+    dplyr::summarize(
+      start_runs = min(run_start),
+      end_runs = max(run_end),
+      duration_d = (start_runs %--% end_runs) / lubridate::ddays(1)
+    )
+}
+
 #' Update all runs from GDQ tracker
 #'
 #' @inheritParams assemble_donations
@@ -43,9 +71,9 @@ get_runs <- function(event = "latest") {
 #'
 #' @examples
 #' \dontrun{
-#' assemble_runs(cache = FALSE)
+#' assemble_runs()
 #' }
-assemble_runs <- function(events = NULL, cache = TRUE) {
+assemble_runs <- function(events = NULL, cache = FALSE) {
 
   if (is.null(events)) {
     events <- fs::dir_ls(
@@ -69,8 +97,9 @@ assemble_runs <- function(events = NULL, cache = TRUE) {
     dplyr::arrange(.data$run_start)
 
   if (cache) {
-    cli::cli_alert_info("Caching run data at {.emph data/all_runs_gdqtracker.rds}")
-    saveRDS(runs, fs::path(getOption("gdq_cache_dir"), "gdq_runs.rds"))
+    cache_path <- fs::path(getOption("gdq_cache_dir"), "gdq_runs.rds")
+    cli::cli_alert_info("Caching run data at {.emph {cache_path}}")
+    saveRDS(runs, cache_path)
   }
 
   runs

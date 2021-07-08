@@ -71,19 +71,30 @@ gdq_donation_totals %>%
 ```
 
 
-```{r gdq-donations-timeline-per-event, eval=FALSE}
+```{r gdq-donations-timeline-per-event}
 donations %>%
-  #filter(as.numeric(year) >= 2019) %>% 
-  filter(time_rel >= 0 & time_rel <= 1.2) %>%
+  filter(time_rel >= 0 & time_rel <= 1) %>%
   group_by(event) %>%
+  mutate(amount_total = cumsum(amount)) %>%
+  ungroup() %>%
   mutate(
-    amount_total = cumsum(amount)
-  ) %>%
-  # filter(event == "AGDQ2021") %>%
-  # View()
-  ggplot(aes(x = time_rel, y = amount_total, color = year)) +
-  facet_wrap(~gdq) +
+    year_g = cut(as.numeric(year), breaks = 4),
+    highlight = event == event_index$event[event_index$start == max(event_index$start)]
+  ) %>% 
+  ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +
   geom_step() +
+  scale_y_currency() +
+  scale_color_manual(
+    values = c("TRUE" = "red", "FALSE" = "gray"), 
+    labels = c("TRUE" = "Current Event", "FALSE" = "Previous events"),
+    name = ""
+  ) +
+  labs(
+    title = "Current event donation progression",
+    subtitle = "Compared to previous events, with tim relative to start/end of event",
+    y = "Cumulative donation total",
+    x = "Event Progression"
+  ) +
   theme_gdq()
 ```
 

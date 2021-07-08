@@ -42,3 +42,23 @@ usethis::use_data(
   compress = "xz", version = 3
 )
 
+# event_dates %>%
+#   left_join(
+#     gdq_runs %>%
+#       filter(
+#         # AGDQ2013 bonus games (??)
+#         run_duration_s > 0,
+#         # AGDQ2014 bonus stream
+#         run_duration_s <= 250000
+#       ) %>%
+#       group_by(event) %>%
+#       summarize(
+#         start_runs = min(run_start),
+#         end_runs = max(run_end)
+#       ),
+#     by = "event"
+#   ) %>%
+#   mutate(
+#     diff_start = (start - start_runs) / dhours(1),
+#     diff_end = (end - end_runs) / dhours(1)
+#   )

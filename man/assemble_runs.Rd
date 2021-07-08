@@ -4,7 +4,7 @@
 \alias{assemble_runs}
 \title{Update all runs from GDQ tracker}
 \usage{
-assemble_runs(events = NULL, cache = TRUE)
+assemble_runs(events = NULL, cache = FALSE)
 }
 \arguments{
 \item{events}{\verb{[NULL]}: Optional vector of file paths to individual \code{.rds} files.}
@@ -19,6 +19,6 @@ Update all runs from GDQ tracker
 }
 \examples{
 \dontrun{
-assemble_runs(cache = FALSE)
+assemble_runs()
 }
 }

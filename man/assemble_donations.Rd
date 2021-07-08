@@ -4,7 +4,7 @@
 \alias{assemble_donations}
 \title{Aggregate all donation data from the tracker in one file}
 \usage{
-assemble_donations(events = NULL, cache = TRUE)
+assemble_donations(events = NULL, cache = FALSE)
 }
 \arguments{
 \item{events}{\verb{[NULL]}: Optional vector of file paths to individual \code{.rds} files.}

@@ -14,7 +14,7 @@ tracker_run_index <- function() {
   runlinks <- rvest::read_html("https://gamesdonequick.com/tracker/runs/") %>%
     rvest::html_nodes(".list-group-item")
 
-  index <- tibble::tibble(
+  tibble::tibble(
     event_name = rvest::html_text(runlinks),
     tracker_run_url = rvest::html_attr(runlinks, name = "href"),
     # Infer donations URL from runs URL, assuming same slug
@@ -23,5 +23,4 @@ tracker_run_index <- function() {
     event_slug = stringr::str_extract(.data$tracker_run_url, "[a-zA-Z0-9]+$"),
     event = stringr::str_to_upper(.data$event_slug)
   )
-
 }

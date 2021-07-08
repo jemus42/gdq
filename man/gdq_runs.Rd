@@ -5,7 +5,7 @@
 \alias{gdq_runs}
 \title{Aggregated run data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2773 rows and 11 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2926 rows and 11 columns.
 }
 \source{
 \code{\link[=assemble_runs]{assemble_runs()}}

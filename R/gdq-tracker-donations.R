@@ -110,7 +110,7 @@ get_donations <- function(event = "latest", delay = .5) {
 #' \dontrun{
 #' assemble_donations()
 #' }
-assemble_donations <- function(events = NULL, cache = TRUE) {
+assemble_donations <- function(events = NULL, cache = FALSE) {
 
   if (is.null(events)) {
     events <- fs::dir_ls(
@@ -134,8 +134,9 @@ assemble_donations <- function(events = NULL, cache = TRUE) {
 
 
   if (cache) {
-    cli::cli_alert_info("Caching donation data at {.emph data/all_donations.rds}")
-    saveRDS(all_donations, fs::path(getOption("gdq_cache_dir"), "gdq_donations.rds"))
+    cache_path <- fs::path(getOption("gdq_cache_dir"), "gdq_donations.rds")
+    cli::cli_alert_info("Caching donation data at {.emph {cache_path}")
+    saveRDS(all_donations, cache_path)
   }
 
   all_donations
@@ -164,7 +165,11 @@ augment_donations <- function(donations) {
   donations %>%
     dplyr::left_join(
       gdqdonations::event_index %>%
-        dplyr::select("event", "start", "end"),
+        dplyr::select("event", "start", "end") %>%
+        dplyr::left_join(
+          summarize_runs(gdqdonations::gdq_runs),
+          by = "event"
+        ),
       by = "event"
     ) %>%
       dplyr::arrange(.data$time) %>%
@@ -173,11 +178,16 @@ augment_donations <- function(donations) {
         day_num = paste0(.data$day, " (", lubridate::day(.data$time), ".)"),
         year = stringr::str_extract(.data$event, "\\d+"),
         gdq = stringr::str_remove(.data$event, "\\d+"),
-        amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels),
-        time_rel = ((.data$start %--% .data$time) / lubridate::dminutes(1)) /
-          ((.data$start %--% .data$end)/lubridate::dminutes(1))
+        amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels)
       ) %>%
-      dplyr::select(-.data$start, -.data$end)
+      # Dealing with time stuff is hard, this needs a better solution
+      dplyr::mutate(
+        start_guess = pmax(.data$start, .data$start_runs, na.rm = TRUE),
+        end_guess = pmin(.data$end, .data$end_runs, na.rm = TRUE),
+        time_rel = ((.data$start_guess %--% .data$time) / lubridate::dminutes(1)) /
+          ((.data$start_guess %--% .data$end_guess) / lubridate::dminutes(1))
+      ) %>%
+      dplyr::select(-dplyr::starts_with("start"), -dplyr::starts_with("end"))
 }
 
 
