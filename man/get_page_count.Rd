@@ -8,7 +8,7 @@ get_page_count(event = "latest")
 }
 \arguments{
 \item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
-\code{"latest"}, is an alias for \code{event_index$event[nrow(event_index)]}.}
+\code{"latest"}, is an alias for \verb{[latest_event()]}.}
 }
 \value{
 Page count as a \code{numeric(1)}.

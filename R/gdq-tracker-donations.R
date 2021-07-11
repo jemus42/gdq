@@ -1,7 +1,7 @@
 #' Get page count of GDQ tracker
 #'
 #' @param event `["latest"]` Event such as `"AGDQ2021"`, case insensitive. The default,
-#' `"latest"`, is an alias for `event_index$event[nrow(event_index)]`.
+#' `"latest"`, is an alias for `[latest_event()]`.
 #'
 #' @return Page count as a `numeric(1)`.
 #' @export
@@ -13,7 +13,7 @@
 get_page_count <- function(event = "latest") {
 
   if (event == "latest") {
-    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+    event <- latest_event()
   }
 
   event <- toupper(event)
@@ -42,7 +42,7 @@ get_page_count <- function(event = "latest") {
 get_donation_page <- function(event = "latest", page = 1) {
 
   if (event == "latest") {
-    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+    event <- latest_event()
   }
 
   event <- toupper(event)
@@ -55,9 +55,9 @@ get_donation_page <- function(event = "latest", page = 1) {
     purrr::set_names(c("name", "time", "amount", "comment")) %>%
     dplyr::mutate(
       time = lubridate::ymd_hms(.data$time),
-      amount = stringr::str_remove(.data$amount, "\\$"),
-      amount = stringr::str_remove(.data$amount, ","),
-      amount = as.numeric(.data$amount)
+      amount = stringr::str_remove(.data$amount, "\\$") %>%
+        stringr::str_remove( ",") %>%
+        as.numeric()
     )
 }
 
@@ -76,7 +76,7 @@ get_donation_page <- function(event = "latest", page = 1) {
 get_donations <- function(event = "latest", delay = .5) {
 
   if (event == "latest") {
-    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+    event <- latest_event()
   }
 
   event <- toupper(event)

@@ -33,7 +33,9 @@ if (!("Fira Sans Condensed" %in% showtextdb::font_installed())) {
 ```{r setup}
 library(gdqdonations)
 library(dplyr)
+library(tidyr)
 library(ggplot2)
+library(kableExtra)
 
 donations <- augment_donations(gdqdonations::gdq_donations)
 runs <- gdqdonations::gdq_runs
@@ -53,6 +55,7 @@ gdq_donation_totals <-
   mutate(cumtot = cumsum(total))
 ```
 
+
 ```{r gdq-donation-totals}
 gdq_donation_totals %>%
   ggplot(aes(x = year, y = total, fill = gdq)) +
@@ -70,15 +73,80 @@ gdq_donation_totals %>%
   theme_gdq()
 ```
 
+## Relative Progress
+
+Unfortunately finding the proper "end time" is not that easy, since the end time of the last run (or finale section) typically comes way before the last of the donations have trickled in.  
+
+```{r gdq-startend}
+full_join(
+  runs %>%
+    group_by(event) %>%
+    slice_tail(n = 1) %>% 
+    select(event, run, run_end),
+  donations %>% 
+    group_by(event) %>% 
+    slice_tail(n = 1) %>% 
+    select(event, amount, donation_time = time),
+  by = "event"
+) %>% 
+  arrange(donation_time) %>% 
+  mutate(hours_since_end = (run_end %--% donation_time) / lubridate::dhours(1)) %>% 
+  kable() %>% 
+  kable_styling()
+```
+
+Uhm, not sure what's going on with AGDQ2013 there.
+
+How about we compare first/last donation and first/last run times per event.
+
+```{r gdq-firstlast-run-donation}
+bind_rows(
+  runs %>%
+    group_by(event) %>% 
+    summarize(
+      type = "run",
+      first = min(run_start, na.rm = TRUE),
+      last = max(run_end, na.rm = TRUE)
+    ),
+  donations %>%
+    group_by(event) %>% 
+    summarize(
+      type = "donation",
+      first = min(time, na.rm = TRUE),
+      last = max(time, na.rm = TRUE)
+    )
+) %>% 
+  arrange(first) %>% 
+  mutate(
+    event = factor(event, levels = event_index$event)
+  ) %>% 
+  ggplot(aes(y = 0, xmin = first, xmax = last, fill = type, color = type)) +
+  facet_wrap(facets = vars(event), scales = "free", nrow = 4) +
+  geom_errorbarh(height = .5, size = 1.5, alpha = 2/3) +
+  scale_y_continuous(limits = c(-1, 1)) +
+  scale_color_brewer(palette = "Dark2", guide = "none") +
+  labs(
+    title = "First and Last <span style='color:#1B9E77'>Donation</span> and <span style='color:#D95F02'>Run</span>  per Event",
+    subtitle = "Donations are logged long before and after the main event period",
+    x = "Date"
+  ) +
+  theme_gdq(
+    axis.line.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank()
+  )
+```
+
+
+Trying to reasonably determine start and end of the main event period to scale donation progress relatively.
 
 ```{r gdq-donations-timeline-per-event}
 donations %>%
-  filter(time_rel >= 0 & time_rel <= 1) %>%
+  filter(time_rel >= 0 & time_rel <= 1.05) %>%
   group_by(event) %>%
   mutate(amount_total = cumsum(amount)) %>%
   ungroup() %>%
   mutate(
-    year_g = cut(as.numeric(year), breaks = 4),
     highlight = event == latest_event()
   ) %>% 
   ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +

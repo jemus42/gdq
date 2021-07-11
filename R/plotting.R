@@ -13,8 +13,8 @@ theme_gdq <- function(legend.position = "top", ...) {
       panel.grid.major = ggplot2::element_line(colour = "#CFCFCF"),
       panel.grid.minor = ggplot2::element_line(colour = "#EFEFEF"),
       plot.title.position = "plot",
-      plot.title = ggplot2::element_text(colour = "#00AEEF"),
-      plot.subtitle = ggplot2::element_text(colour = "#00AEEF"),
+      plot.title = ggtext::element_markdown(colour = "#00AEEF"),
+      plot.subtitle = ggtext::element_markdown(colour = "#00AEEF"),
       ...
     )
 }

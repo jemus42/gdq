@@ -15,6 +15,7 @@ Imports:
     cli,
     dplyr,
     fs,
+    ggtext,
     ggplot2,
     glue,
     hms,
@@ -28,6 +29,7 @@ Imports:
     tibble,
     usethis
 Suggests: 
+    kableExtra,
     beepr,
     rmarkdown,
     roxygen2,

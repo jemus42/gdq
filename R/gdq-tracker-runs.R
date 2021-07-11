@@ -12,7 +12,7 @@
 get_runs <- function(event = "latest") {
 
   if (event == "latest") {
-    event <- gdqdonations::event_index$event[nrow(gdqdonations::event_index)]
+    event <- latest_event()
   }
 
   event <- toupper(event)
@@ -49,10 +49,8 @@ get_runs <- function(event = "latest") {
 summarize_runs <- function(runs) {
   runs %>%
     dplyr::filter(
-      # AGDQ2013 bonus games (??)
-      run_duration_s > 0,
-      # AGDQ2014 bonus stream
-      run_duration_s <= 250000
+      # bonus games / streams
+      stringr::str_detect(.data$run, "[Bb]onus ([Gg]ames|[Ss]tream)", negate = TRUE)
     ) %>%
     dplyr::group_by(.data$event) %>%
     dplyr::summarize(
