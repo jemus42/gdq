@@ -21,7 +21,7 @@ event_dates <- tibble::tribble(
   # Summer Games Done Quick
   "SGDQ2011", ymd_hms("2011-08-04 19:00:00", tz = "UTC"), ymd_hms("2011-08-06 23:07:31", tz = "UTC"),
   "SGDQ2012", ymd_hms("2012-05-24 21:00:00", tz = "UTC"), ymd_hms("2012-05-28 18:13:00", tz = "UTC"),
-  "SGDQ2013", ymd_hms("2013-07-25 18:00:00", tz = "UTC"), ymd_hms("2013-08-11 06:00:00", tz = "UTC"),
+  "SGDQ2013", ymd_hms("2013-07-25 18:00:00", tz = "UTC"), ymd_hms("2013-07-30 06:48:00", tz = "UTC"),
   "SGDQ2014", ymd_hms("2014-06-22 18:00:00", tz = "UTC"), ymd_hms("2014-06-29 13:02:00", tz = "UTC"),
   "SGDQ2015", ymd_hms("2015-07-26 16:00:00", tz = "UTC"), ymd_hms("2015-08-02 06:38:04", tz = "UTC"),
   "SGDQ2016", ymd_hms("2016-07-03 16:30:00", tz = "UTC"), ymd_hms("2016-07-10 08:00:00", tz = "UTC"),
@@ -29,7 +29,7 @@ event_dates <- tibble::tribble(
   "SGDQ2018", ymd_hms("2018-06-24 16:30:00", tz = "UTC"), ymd_hms("2018-07-01 07:50:54", tz = "UTC"),
   "SGDQ2019", ymd_hms("2019-06-23 16:30:00", tz = "UTC"), ymd_hms("2019-06-30 06:55:00", tz = "UTC"),
   "SGDQ2020", ymd_hms("2020-08-16 15:30:00", tz = "UTC"), ymd_hms("2020-08-23 07:42:00", tz = "UTC"),
-  "SGDQ2021", ymd_hms("2021-07-04 15:30:00", tz = "UTC"), ymd("2021-07-11", tz = "UTC")
+  "SGDQ2021", ymd_hms("2021-07-04 15:30:00", tz = "UTC"), ymd_hms("2021-07-11 07:46:00", tz = "UTC")
 ) %>%
   mutate(event_duration = start %--% end / ddays(1))
 
@@ -42,13 +42,3 @@ usethis::use_data(
   event_index, overwrite = TRUE,
   compress = "xz", version = 3
 )
-
-# event_dates %>%
-#   left_join(
-#     gdq_runs %>%
-#       filter(
-#         # AGDQ2013 bonus games (??)
-#         run_duration_s > 0,
-#         # AGDQ2014 bonus stream
-#         run_duration_s <= 250000
-#       )

@@ -37,11 +37,12 @@ library(tidyr)
 library(ggplot2)
 library(kableExtra)
 
-donations <- augment_donations(gdqdonations::gdq_donations)
+donations <- gdqdonations::gdq_donations %>% 
+  augment_donations()
 runs <- gdqdonations::gdq_runs
 ```
 
-```{r}
+```{r gdq-totals-calc}
 gdq_donation_totals <-
   donations %>%
   group_by(event) %>%
@@ -76,6 +77,7 @@ gdq_donation_totals %>%
 ## Relative Progress
 
 Unfortunately finding the proper "end time" is not that easy, since the end time of the last run (or finale section) typically comes way before the last of the donations have trickled in.  
+Also, the last "run" listed on the runs page is sometimes the finale, sometimes the last game, sometimes an explicitl `total:`?
 
 ```{r gdq-startend}
 full_join(
@@ -91,11 +93,15 @@ full_join(
 ) %>% 
   arrange(donation_time) %>% 
   mutate(hours_since_end = (run_end %--% donation_time) / lubridate::dhours(1)) %>% 
+  select(
+    event,
+    last_run = run, last_run_end = run_end,
+    last_donation = donation_time, amount,
+    hours_since_end
+  ) %>% 
   kable() %>% 
   kable_styling()
 ```
-
-Uhm, not sure what's going on with AGDQ2013 there.
 
 How about we compare first/last donation and first/last run times per event.
 

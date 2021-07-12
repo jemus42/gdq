@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_runs(event = "sgdq2021") %>% View()
+#' get_runs(event = "sgdq2021")
 #' }
 get_runs <- function(event = "latest") {
 
@@ -27,7 +27,7 @@ get_runs <- function(event = "latest") {
       run_end = lubridate::ymd_hms(.data$run_end),
       run_duration_s = as.numeric(difftime(.data$run_end, .data$run_start, units = "secs")),
       run_duration_hms = hms::hms(seconds = .data$run_duration_s),
-      event = stringr::str_to_upper(stringr::str_extract(stringr::str_to_lower(.env$event), "[as]gdq\\d+")),
+      event = .env$event,
       year = stringr::str_extract(.data$event, "\\d+"),
       gdq = stringr::str_remove(.data$event, "\\d+")
     ) %>%
