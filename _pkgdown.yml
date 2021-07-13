@@ -1,0 +1,62 @@
+development:
+  mode: auto
+  destination: "."
+
+url: https://jemus42.github.io/gdqdonations
+
+home:
+  title: Collect data from the GamesDoneQuick Donation Tracker
+  description: >
+    Scrape, aggregate and cache donations and runs from mainline GDQ events.
+
+template:
+  # path: pkgdown/templates
+  params:
+    bootswatch: cosmo
+  opengraph:
+    image:
+      # src: "man/figures/logo.png"
+      # alt: "Hex sticker showing the trakt.tv logo"
+    twitter:
+      creator: "@jemus42"
+      card: summary_large_image # summary
+
+authors:
+  Lukas Burk:
+    href: https://blog.jemu.name
+
+news:
+  one_page: true
+  cran_dates: false
+
+reference:
+  - title: Donations
+    contents:
+      - get_donations
+      - get_donation_page
+      - update_tracker_donations
+      - augment_donations
+      - assemble_donations
+  - title: Runs
+    contents:
+      - get_runs
+      - update_tracker_runs
+      - summarize_runs
+      - assemble_runs
+  - title: Scraping Helpers
+    contents:
+      - tracker_run_index
+      - get_page_count
+      - latest_event
+  - title: Plotting Helpers
+    contents:
+      - starts_with("scale_")
+      - theme_gdq
+  - title: Pre-Collected Data
+    contents:
+      - event_index
+      - gdq_donations
+      - gdq_runs
+  - title: This package
+    contents:
+      - gdqdonations

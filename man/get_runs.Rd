@@ -18,6 +18,6 @@ Get runs from GDQ tracker
 }
 \examples{
 \dontrun{
-get_runs(event = "sgdq2021") \%>\% View()
+get_runs(event = "sgdq2021")
 }
 }

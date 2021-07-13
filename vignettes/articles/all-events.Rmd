@@ -77,7 +77,7 @@ gdq_donation_totals %>%
 ## Relative Progress
 
 Unfortunately finding the proper "end time" is not that easy, since the end time of the last run (or finale section) typically comes way before the last of the donations have trickled in.  
-Also, the last "run" listed on the runs page is sometimes the finale, sometimes the last game, sometimes an explicitl `total:`?
+Also, the last "run" listed on the runs page is sometimes the finale, sometimes the last game, sometimes an explicit `total:`?
 
 ```{r gdq-startend}
 full_join(

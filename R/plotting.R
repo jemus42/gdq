@@ -10,11 +10,13 @@ theme_gdq <- function(legend.position = "top", ...) {
       axis.text = ggplot2::element_text(family = "Fira Sans Condensed"),
       legend.position = legend.position,
       legend.background = ggplot2::element_rect(colour = "transparent"),
-      panel.grid.major = ggplot2::element_line(colour = "#CFCFCF"),
-      panel.grid.minor = ggplot2::element_line(colour = "#EFEFEF"),
+      panel.grid.major = ggplot2::element_line(colour = "#FAFAFA"),
+      panel.grid.minor = ggplot2::element_line(colour = "#FDFDFD"),
       plot.title.position = "plot",
       plot.title = ggtext::element_markdown(colour = "#00AEEF"),
       plot.subtitle = ggtext::element_markdown(colour = "#00AEEF"),
+      panel.background = ggplot2::element_rect(fill = "transparent", color = "transparent"),
+      panel.border = ggplot2::element_rect(fill = "transparent", color = "transparent"),
       ...
     )
 }
