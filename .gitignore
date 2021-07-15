@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 ..bfg-report
-
+.vscode
 experiment.R
 attic
 
