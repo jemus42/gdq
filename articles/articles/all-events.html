@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>All Events • gdqdonations</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">gdqdonations</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
 
@@ -130,10 +130,10 @@
     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10e6</span>, <span class="fl">5e5</span><span class="op">)</span>,
     minor_breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10e6</span>, <span class="fl">2.5e5</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../../reference/gdq-plotting.html">scale_colorfill_gdq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../../reference/gdq-plotting.html">scale_colorfill_gdq</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
     title <span class="op">=</span> <span class="st">"Games Done Quick: Donation Totals"</span>,
-    subtitle <span class="op">=</span> <span class="st">"Donation totals as per the official tracker page"</span>
+    subtitle <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"Donation totals for &lt;span style='color:{gdq_pal[['AGDQ']]}'&gt;AGDQ&lt;/span&gt; and &lt;span style='color:{gdq_pal[['SGDQ']]}'&gt;SGDQ&lt;/span&gt; as per the official tracker page"</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../../reference/gdq-plotting.html">theme_gdq</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="all-events_files/figure-html/gdq-donation-totals-1.png" width="768" style="display: block; margin: auto;"></p>
@@ -141,7 +141,7 @@
 <h2 class="hasAnchor">
 <a href="#relative-progress" class="anchor"></a>Relative Progress</h2>
 <p>Unfortunately finding the proper “end time” is not that easy, since the end time of the last run (or finale section) typically comes way before the last of the donations have trickled in.<br>
-Also, the last “run” listed on the runs page is sometimes the finale, sometimes the last game, sometimes an explicitl <code>total:</code>?</p>
+Also, the last “run” listed on the runs page is sometimes the finale, sometimes the last game, sometimes an explicit <code>total:</code>?</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span>
   <span class="va">runs</span> <span class="op">%&gt;%</span>
@@ -707,7 +707,7 @@ Finale The End
 
 
       <footer><div class="copyright">
-  <p>Developed by Lukas Burk.</p>
+  <p>Developed by <a href="https://blog.jemu.name">Lukas Burk</a>.</p>
 </div>
 
 <div class="pkgdown">

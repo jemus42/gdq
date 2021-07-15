@@ -4,5 +4,8 @@ pkgdown_sha: ~
 articles:
   articles/all-events: all-events.html
   articles/by-event: by-event.html
-last_built: 2021-07-12T23:02Z
+last_built: 2021-07-15T15:06Z
+urls:
+  reference: https://jemus42.github.io/gdqdonations/reference
+  article: https://jemus42.github.io/gdqdonations/articles
 

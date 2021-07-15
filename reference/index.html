@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gdqdonations</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-donations" class="hasAnchor"><a href="#section-donations" class="anchor"></a>Donations</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -143,15 +143,21 @@
       <tr>
         
         <td>
-          <p><code><a href="assemble_donations.html">assemble_donations()</a></code> </p>
+          <p><code><a href="get_donations.html">get_donations()</a></code> </p>
         </td>
-        <td><p>Aggregate all donation data from the tracker in one file</p></td>
+        <td><p>Get all donations for an event from the tracker</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="assemble_runs.html">assemble_runs()</a></code> </p>
+          <p><code><a href="get_donation_page.html">get_donation_page()</a></code> </p>
         </td>
-        <td><p>Update all runs from GDQ tracker</p></td>
+        <td><p>Get a single page from the tracker</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="update_tracker_donations.html">update_tracker_donations()</a></code> </p>
+        </td>
+        <td><p>Update donation data from GDQ tracker</p></td>
       </tr><tr>
         
         <td>
@@ -161,15 +167,115 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="event_index.html">event_index</a></code> </p>
+          <p><code><a href="assemble_donations.html">assemble_donations()</a></code> </p>
         </td>
-        <td><p>GDQ Event Index</p></td>
+        <td><p>Aggregate all donation data from the tracker in one file</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-runs" class="hasAnchor"><a href="#section-runs" class="anchor"></a>Runs</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="get_runs.html">get_runs()</a></code> </p>
+        </td>
+        <td><p>Get runs from GDQ tracker</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="update_tracker_runs.html">update_tracker_runs()</a></code> </p>
+        </td>
+        <td><p>Update run data from GDQ tracker</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summarize_runs.html">summarize_runs()</a></code> </p>
+        </td>
+        <td><p>Summarize GDQ tracker run data by event</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="assemble_runs.html">assemble_runs()</a></code> </p>
+        </td>
+        <td><p>Update all runs from GDQ tracker</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-scraping-helpers" class="hasAnchor"><a href="#section-scraping-helpers" class="anchor"></a>Scraping Helpers</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="tracker_run_index.html">tracker_run_index()</a></code> </p>
+        </td>
+        <td><p>Get GDQ tracker event overview</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_page_count.html">get_page_count()</a></code> </p>
+        </td>
+        <td><p>Get page count of GDQ tracker</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="latest_event.html">latest_event()</a></code> </p>
+        </td>
+        <td><p>Get the latest event</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plotting-helpers" class="hasAnchor"><a href="#section-plotting-helpers" class="anchor"></a>Plotting Helpers</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="gdq-plotting.html">theme_gdq()</a></code> <code><a href="gdq-plotting.html">scale_x_year()</a></code> <code><a href="gdq-plotting.html">scale_x_year_discrete()</a></code> <code><a href="gdq-plotting.html">scale_y_currency()</a></code> <code><a href="gdq-plotting.html">scale_y_dollar()</a></code> <code><a href="gdq-plotting.html">scale_x_dollar()</a></code> <code><a href="gdq-plotting.html">scale_colorfill_gdq()</a></code> </p>
         </td>
         <td><p>Plotting helpers</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-pre-collected-data" class="hasAnchor"><a href="#section-pre-collected-data" class="anchor"></a>Pre-Collected Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="event_index.html">event_index</a></code> </p>
+        </td>
+        <td><p>GDQ Event Index</p></td>
       </tr><tr>
         
         <td>
@@ -182,60 +288,25 @@
           <p><code><a href="gdq_runs.html">gdq_runs</a></code> </p>
         </td>
         <td><p>Aggregated run data</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-this-package" class="hasAnchor"><a href="#section-this-package" class="anchor"></a>This package</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="get_donation_page.html">get_donation_page()</a></code> </p>
+          <p><code><a href="gdqdonations-package.html">gdqdonations-package</a></code> </p>
         </td>
-        <td><p>Get a single page from the tracker</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_donations.html">get_donations()</a></code> </p>
-        </td>
-        <td><p>Get all donations for an event from the tracker</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_page_count.html">get_page_count()</a></code> </p>
-        </td>
-        <td><p>Get page count of GDQ tracker</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_runs.html">get_runs()</a></code> </p>
-        </td>
-        <td><p>Get runs from GDQ tracker</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="latest_event.html">latest_event()</a></code> </p>
-        </td>
-        <td><p>Get the latest event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize_runs.html">summarize_runs()</a></code> </p>
-        </td>
-        <td><p>Summarize GDQ tracker run data by event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tracker_run_index.html">tracker_run_index()</a></code> </p>
-        </td>
-        <td><p>Get GDQ tracker event overview</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_tracker_donations.html">update_tracker_donations()</a></code> </p>
-        </td>
-        <td><p>Update donation data from GDQ tracker</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_tracker_runs.html">update_tracker_runs()</a></code> </p>
-        </td>
-        <td><p>Update run data from GDQ tracker</p></td>
+        <td><p>gdqdonations: Get data from the 'GDQ' donation tracker</p></td>
       </tr>
     </tbody>
     </table>
@@ -251,7 +322,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lukas Burk.</p>
+  <p>Developed by <a href='https://blog.jemu.name'>Lukas Burk</a>.</p>
 </div>
 
 <div class="pkgdown">
