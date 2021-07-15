@@ -5,7 +5,7 @@
 \alias{gdq_pal}
 \title{GDQ Color Preset}
 \format{
-An object of class \code{character} of length 2.
+An object of class \code{character} of length 3.
 }
 \usage{
 gdq_pal

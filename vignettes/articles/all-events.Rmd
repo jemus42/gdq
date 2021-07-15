@@ -105,7 +105,7 @@ full_join(
 
 How about we compare first/last donation and first/last run times per event.
 
-```{r gdq-firstlast-run-donation}
+```{r gdq-firstlast-run-donation, fig.width=9, fig.height=8}
 bind_rows(
   runs %>%
     group_by(event) %>% 
@@ -129,6 +129,7 @@ bind_rows(
   ggplot(aes(y = 0, xmin = first, xmax = last, fill = type, color = type)) +
   facet_wrap(facets = vars(event), scales = "free", nrow = 4) +
   geom_errorbarh(height = .5, size = 1.5, alpha = 2/3) +
+  scale_x_datetime(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(limits = c(-1, 1)) +
   scale_color_brewer(palette = "Dark2", guide = "none") +
   labs(
@@ -137,6 +138,7 @@ bind_rows(
     x = "Date"
   ) +
   theme_gdq(
+    axis.text.x = element_text(size = rel(.8)),
     axis.line.y = element_blank(),
     axis.text.y = element_blank(),
     axis.title.y = element_blank()
@@ -158,15 +160,16 @@ donations %>%
   ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +
   geom_step() +
   scale_x_continuous(labels = scales::percent_format()) +
-  scale_y_currency() +
+  scale_y_currency(breaks = scales::pretty_breaks()) +
   scale_color_manual(
-    values = c("TRUE" = "red", "FALSE" = "gray"), 
-    labels = c("TRUE" = "Current Event", "FALSE" = "Previous events"),
-    name = ""
+    values = c("TRUE" = gdq_pal[["GDQ"]], "FALSE" = "gray"), 
+    labels = c("TRUE" = latest_event(), "FALSE" = "Previous events"),
+    name = "",
+    guide = "none"
   ) +
   labs(
-    title = "Current event donation progression",
-    subtitle = "Compared to previous events, with time relative to start/end of event",
+    title = "Latest event donation progression",
+    subtitle = "Compared to previous events, with time (roughly) relative to start/end of event",
     y = "Cumulative donation total",
     x = "Event Progression"
   ) +

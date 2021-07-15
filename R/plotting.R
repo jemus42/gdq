@@ -11,13 +11,15 @@ theme_gdq <- function(legend.position = "top", ...) {
   ) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(family = "Fira Sans Condensed"),
+      axis.title = ggplot2::element_text(colour = gdq_pal[["GDQ"]]),
       legend.position = legend.position,
       legend.background = ggplot2::element_rect(colour = "transparent"),
       panel.grid.major = ggplot2::element_line(colour = "#FAFAFA"),
       panel.grid.minor = ggplot2::element_line(colour = "#FDFDFD"),
       plot.title.position = "plot",
-      plot.title = ggtext::element_markdown(colour = "#00AEEF"),
-      plot.subtitle = ggtext::element_markdown(colour = "#00AEEF"),
+      plot.title = ggtext::element_markdown(colour = gdq_pal[["GDQ"]]),
+      plot.subtitle = ggtext::element_markdown(colour = gdq_pal[["GDQ"]]),
+      plot.caption = ggtext::element_markdown(family = "Fira Sans Condensed"),
       panel.background = ggplot2::element_rect(fill = "transparent", color = "transparent"),
       panel.border = ggplot2::element_rect(fill = "transparent", color = "transparent"),
       ...
@@ -102,4 +104,8 @@ scale_colorfill_gdq <- function(...) {
 #' @examples
 #' gdq_pal
 #' gdq_pal[["AGDQ"]]
-gdq_pal <- c("AGDQ" = "#1D3461", "SGDQ" = "#A30000")
+gdq_pal <- c(
+  "GDQ"  = "#00AEEF",
+  "AGDQ" = "#1D3461",
+  "SGDQ" = "#A30000"
+)
