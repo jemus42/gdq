@@ -13,4 +13,8 @@ gdq_pal
 \description{
 GDQ Color Preset
 }
-\keyword{internal}
+\examples{
+gdq_pal
+gdq_pal[["AGDQ"]]
+}
+\keyword{datasets}

@@ -97,5 +97,9 @@ scale_colorfill_gdq <- function(...) {
 }
 
 #' GDQ Color Preset
-#' @keywords internal
+#'
+#' @export
+#' @examples
+#' gdq_pal
+#' gdq_pal[["AGDQ"]]
 gdq_pal <- c("AGDQ" = "#1D3461", "SGDQ" = "#A30000")
