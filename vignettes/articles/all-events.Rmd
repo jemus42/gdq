@@ -66,10 +66,10 @@ gdq_donation_totals %>%
     breaks = seq(0, 10e6, 5e5),
     minor_breaks = seq(0, 10e6, 2.5e5)
   ) +
-  scale_colorfill_gdq() +
+  scale_colorfill_gdq(guide = "none") +
   labs(
     title = "Games Done Quick: Donation Totals",
-    subtitle = "Donation totals as per the official tracker page"
+    subtitle = glue::glue("Donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span> as per the official tracker page")
   ) +
   theme_gdq()
 ```

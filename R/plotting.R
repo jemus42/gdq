@@ -5,7 +5,10 @@
 #' @export
 #' @name gdq-plotting
 theme_gdq <- function(legend.position = "top", ...) {
-  ggplot2::theme_minimal(base_family = "Cubano") +
+  ggplot2::theme_minimal(
+    base_size = 16,
+    base_family = "Cubano"
+  ) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(family = "Fira Sans Condensed"),
       legend.position = legend.position,
@@ -86,9 +89,13 @@ scale_x_dollar <- function(...) {
 #' @rdname gdq-plotting
 scale_colorfill_gdq <- function(...) {
   ggplot2::scale_fill_manual(
-    values = c("AGDQ" = "#1D3461", "SGDQ" = "#A30000"),
+    values = gdq_pal,
     aesthetics = c("color", "fill"),
     name = "",
     ...
   )
 }
+
+#' GDQ Color Preset
+#' @keywords internal
+gdq_pal <- c("AGDQ" = "#1D3461", "SGDQ" = "#A30000")
