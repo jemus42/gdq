@@ -6,6 +6,7 @@
 .vscode
 experiment.R
 attic
+docs
 
 data/gamesdonequick.com/
 data/gdqvods.com/
