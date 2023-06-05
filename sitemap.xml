@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jemus42.github.io/gdqdonations/404.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/articles/all-events.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/articles/by-event.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jemus42.github.io/gdqdonations/authors.html</loc>
+  </url>
+  <url>
     <loc>https://jemus42.github.io/gdqdonations/index.html</loc>
   </url>
   <url>
@@ -43,13 +64,13 @@
     <loc>https://jemus42.github.io/gdqdonations/reference/get_runs.html</loc>
   </url>
   <url>
+    <loc>https://jemus42.github.io/gdqdonations/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://jemus42.github.io/gdqdonations/reference/interval.html</loc>
   </url>
   <url>
     <loc>https://jemus42.github.io/gdqdonations/reference/latest_event.html</loc>
-  </url>
-  <url>
-    <loc>https://jemus42.github.io/gdqdonations/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://jemus42.github.io/gdqdonations/reference/summarize_runs.html</loc>
@@ -65,11 +86,5 @@
   </url>
   <url>
     <loc>https://jemus42.github.io/gdqdonations/reference/update_tracker_runs.html</loc>
-  </url>
-  <url>
-    <loc>https://jemus42.github.io/gdqdonations/articles/articles/all-events.html</loc>
-  </url>
-  <url>
-    <loc>https://jemus42.github.io/gdqdonations/articles/articles/by-event.html</loc>
   </url>
 </urlset>
