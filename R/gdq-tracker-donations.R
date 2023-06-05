@@ -156,10 +156,7 @@ assemble_donations <- function(events = NULL, cache = FALSE) {
 #' }
 augment_donations <- function(donations) {
 
-  amount_breaks <- purrr::map(c(5, 10, 25), ~ .x * 10^{0:5}) |>
-    purrr::flatten_dbl() |>
-    sort()
-  amount_breaks <- c(0, amount_breaks)
+  amount_breaks <- c(0, as.integer(c(5, 10, 25) %o% 10^{0:5}))
   amount_c_labels <- paste0("<= ", scales::dollar(amount_breaks[-1]))
 
   donations |>
