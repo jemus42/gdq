@@ -17,13 +17,13 @@ get_page_count <- function(event = "latest") {
   }
 
   event <- toupper(event)
-  url <- gdqdonations::event_index$tracker_donation_url[gdqdonations::event_index$event == event]
+  url <- event_index$tracker_donation_url[event_index$event == event]
   url <- paste0(gdq_base_url, url)
 
-  rvest::read_html(url) %>%
-    rvest::html_node("#page+ label") %>%
-    rvest::html_text() %>%
-    stringr::str_extract("\\d+") %>%
+  rvest::read_html(url) |>
+    rvest::html_node("#page+ label") |>
+    rvest::html_text() |>
+    stringr::str_extract("\\d+") |>
     as.numeric()
 }
 
@@ -46,17 +46,17 @@ get_donation_page <- function(event = "latest", page = 1) {
   }
 
   event <- toupper(event)
-  url <- gdqdonations::event_index$tracker_donation_url[gdqdonations::event_index$event == event]
+  url <- event_index$tracker_donation_url[event_index$event == event]
   url <- paste0(gdq_base_url, url, "?page=", page)
 
-  rvest::read_html(url) %>%
-    rvest::html_table() %>%
-    purrr::pluck(1) %>%
-    purrr::set_names(c("name", "time", "amount", "comment")) %>%
+  rvest::read_html(url) |>
+    rvest::html_table() |>
+    purrr::pluck(1) |>
+    purrr::set_names(c("name", "time", "amount", "comment")) |>
     dplyr::mutate(
       time = lubridate::ymd_hms(.data$time),
-      amount = stringr::str_remove(.data$amount, "\\$") %>%
-        stringr::str_remove( ",") %>%
+      amount = stringr::str_remove(.data$amount, "\\$") |>
+        stringr::str_remove( ",") |>
         as.numeric()
     )
 }
@@ -123,13 +123,13 @@ assemble_donations <- function(events = NULL, cache = FALSE) {
   }
 
   all_donations <- purrr::map_df(events, ~{
-    readRDS(.x) %>%
+    readRDS(.x) |>
       dplyr::mutate(
-        event = stringr::str_extract(.x, "[as]gdq\\d{4}") %>%
+        event = stringr::str_extract(.x, "[as]gdq\\d{4}") |>
           stringr::str_to_upper(),
         .before = "name"
       )
-  }) %>%
+  }) |>
     dplyr::arrange(.data$time)
 
 
@@ -151,42 +151,42 @@ assemble_donations <- function(events = NULL, cache = FALSE) {
 #'
 #' @examples
 #' \dontrun{
-#' assemble_donations() %>%
+#' assemble_donations() |>
 #'   augment_donations()
 #' }
 augment_donations <- function(donations) {
 
-  amount_breaks <- purrr::map(c(5, 10, 25), ~ .x * 10^{0:5}) %>%
-    purrr::flatten_dbl() %>%
-    sort() %>%
-    c(0, .)
+  amount_breaks <- purrr::map(c(5, 10, 25), ~ .x * 10^{0:5}) |>
+    purrr::flatten_dbl() |>
+    sort()
+  amount_breaks <- c(0, amount_breaks)
   amount_c_labels <- paste0("<= ", scales::dollar(amount_breaks[-1]))
 
-  donations %>%
+  donations |>
     dplyr::left_join(
-      gdqdonations::event_index %>%
-        dplyr::select("event", "start", "end") %>%
+      event_index |>
+        dplyr::select("event", "start", "end") |>
         dplyr::left_join(
-          summarize_runs(gdqdonations::gdq_runs),
+          summarize_runs(gdq_runs),
           by = "event"
         ),
       by = "event"
-    ) %>%
-      dplyr::arrange(.data$time) %>%
+    ) |>
+      dplyr::arrange(.data$time) |>
       dplyr::mutate(
         day = lubridate::wday(.data$time, label = TRUE),
         day_num = paste0(.data$day, " (", lubridate::day(.data$time), ".)"),
         year = stringr::str_extract(.data$event, "\\d+"),
         gdq = stringr::str_remove(.data$event, "\\d+"),
         amount_c = cut(.data$amount, breaks = amount_breaks, labels = amount_c_labels)
-      ) %>%
+      ) |>
       # Dealing with time stuff is hard, this needs a better solution
       dplyr::mutate(
         start_guess = pmax(.data$start, .data$start_runs, na.rm = TRUE),
         end_guess = pmin(.data$end, .data$end_runs, na.rm = TRUE),
         time_rel = ((.data$start_guess %--% .data$time) / lubridate::dminutes(1)) /
           ((.data$start_guess %--% .data$end_guess) / lubridate::dminutes(1))
-      ) %>%
+      ) |>
       dplyr::select(-dplyr::starts_with("start"), -dplyr::starts_with("end"))
 }
 
@@ -231,13 +231,13 @@ update_tracker_donations <- function(
     if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
 
     if (!in_progress) {
-      if (Sys.Date() < gdqdonations::event_index$end[gdqdonations::event_index$event == .x]) {
+      if (Sys.Date() < event_index$end[event_index$event == .x]) {
         return(tibble::tibble())
       }
     }
 
     usethis::use_directory(getOption("gdq_cache_dir"))
-    get_donations(event = .x, delay = delay) %>%
+    get_donations(event = .x, delay = delay) |>
       saveRDS(file = out_file)
 
     if (sound & requireNamespace("beepr", quietly = TRUE)) beepr::beep(2)

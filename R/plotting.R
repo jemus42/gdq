@@ -55,7 +55,7 @@ scale_y_currency <- function(...) {
   ggplot2::scale_y_continuous(
     labels = scales::dollar_format(),
     sec.axis = ggplot2::dup_axis(
-      ~ . * 0.84,
+      ~ . * .usd_to_eur,
       labels = scales::unit_format(
         accuracy = 4,  suffix = "\u20ac",
         big.mark = ".",  decimal.mark = ","

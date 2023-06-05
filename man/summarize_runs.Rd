@@ -9,15 +9,12 @@ summarize_runs(runs)
 \arguments{
 \item{runs}{Run tibble as returned by \code{\link[=assemble_runs]{assemble_runs()}}.}
 }
-\value{
-
-}
 \description{
 Summarize GDQ tracker run data by event
 }
 \examples{
 \dontrun{
-assemble_runs() \%>\%
+assemble_runs() |>
   summarize_runs()
 }
 }

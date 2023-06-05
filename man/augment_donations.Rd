@@ -17,7 +17,7 @@ Augment GDQ donation data with additional variables
 }
 \examples{
 \dontrun{
-assemble_donations() \%>\%
+assemble_donations() |>
   augment_donations()
 }
 }

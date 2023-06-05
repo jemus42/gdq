@@ -16,12 +16,12 @@ get_runs <- function(event = "latest") {
   }
 
   event <- toupper(event)
-  url <- gdqdonations::event_index$tracker_run_url[gdqdonations::event_index$event == event]
+  url <- event_index$tracker_run_url[event_index$event == event]
 
-  rvest::read_html(paste0("https://gamesdonequick.com/", url)) %>%
-    rvest::html_table() %>%
-    purrr::pluck(1) %>%
-    purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) %>%
+  rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
+    rvest::html_table() |>
+    purrr::pluck(1) |>
+    purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) |>
     dplyr::mutate(
       run_start = lubridate::ymd_hms(.data$run_start),
       run_end = lubridate::ymd_hms(.data$run_end),
@@ -30,7 +30,7 @@ get_runs <- function(event = "latest") {
       event = .env$event,
       year = stringr::str_extract(.data$event, "\\d+"),
       gdq = stringr::str_remove(.data$event, "\\d+")
-    ) %>%
+    ) |>
     dplyr::arrange(.data$run_start)
 }
 
@@ -43,16 +43,16 @@ get_runs <- function(event = "latest") {
 #'
 #' @examples
 #' \dontrun{
-#' assemble_runs() %>%
+#' assemble_runs() |>
 #'   summarize_runs()
 #' }
 summarize_runs <- function(runs) {
-  runs %>%
+  runs |>
     dplyr::filter(
       # bonus games / streams
       stringr::str_detect(.data$run, "[Bb]onus ([Gg]ames|[Ss]tream)", negate = TRUE)
-    ) %>%
-    dplyr::group_by(.data$event) %>%
+    ) |>
+    dplyr::group_by(.data$event) |>
     dplyr::summarize(
       start_runs = min(run_start),
       end_runs = max(run_end),
@@ -84,14 +84,14 @@ assemble_runs <- function(events = NULL, cache = FALSE) {
   }
 
   runs <- purrr::map_df(events, ~{
-    readRDS(.x) %>%
+    readRDS(.x) |>
       dplyr::mutate(
         run = as.character(.data$run),
         players = as.character(.data$players),
         description = as.character(.data$description),
         bidwars = as.character(.data$bidwars)
       )
-    }) %>%
+    }) |>
     dplyr::arrange(.data$run_start)
 
   if (cache) {
@@ -141,7 +141,7 @@ update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALS
     }
 
     usethis::use_directory(getOption("gdq_cache_dir"))
-    get_runs(event = .x) %>%
+    get_runs(event = .x) |>
       saveRDS(out_file)
   })
 
