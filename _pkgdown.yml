@@ -52,6 +52,7 @@ reference:
     contents:
       - starts_with("scale_")
       - theme_gdq
+      - gdq_pal
   - title: Pre-Collected Data
     contents:
       - event_index
