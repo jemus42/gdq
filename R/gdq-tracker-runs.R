@@ -21,12 +21,15 @@ get_runs <- function(event = "latest") {
   rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
     rvest::html_table() |>
     purrr::pluck(1) |>
-    purrr::set_names(c("run", "players", "description", "run_start", "run_end", "bidwars")) |>
+    purrr::set_names(c("run", "players", "hosts", "commentators", "description", "run_start", "run_duration", "bidwars")) |>
     dplyr::mutate(
       run_start = lubridate::ymd_hms(.data$run_start),
-      run_end = lubridate::ymd_hms(.data$run_end),
-      run_duration_s = as.numeric(difftime(.data$run_end, .data$run_start, units = "secs")),
-      run_duration_hms = hms::hms(seconds = .data$run_duration_s),
+      run_duration = if_else(run_duration == "0", "00:00:00", run_duration),
+      # run_end = lubridate::ymd_hms(.data$run_end),
+      run_duration = hms::as_hms(run_duration),
+      #run_duration_s = as.numeric(difftime(.data$run_end, .data$run_start, units = "secs")),
+      run_duration_s = as.numeric(run_duration),
+      #run_duration_hms = hms::hms(seconds = .data$run_duration_s),
       event = .env$event,
       year = stringr::str_extract(.data$event, "\\d+"),
       gdq = stringr::str_remove(.data$event, "\\d+")
