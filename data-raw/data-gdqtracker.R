@@ -16,6 +16,11 @@ update_tracker_donations(
 gdq_donations <- assemble_donations(cache = FALSE)
 usethis::use_data(gdq_donations, overwrite = TRUE, compress = "xz", version = 3)
 
-update_tracker_runs(event_index$event, in_progress = TRUE)
+update_tracker_runs(latest_event())
+
+update_tracker_runs(event_index$event[-1], in_progress = TRUE, ignore_cache = TRUE)
 gdq_runs <- assemble_runs(cache = FALSE)
 usethis::use_data(gdq_runs, overwrite = TRUE, compress = "xz", version = 3)
+
+
+assemble_runs(cache = TRUE)

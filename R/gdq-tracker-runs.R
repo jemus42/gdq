@@ -18,13 +18,16 @@ get_runs <- function(event = "latest") {
   event <- toupper(event)
   url <- event_index$tracker_run_url[event_index$event == event]
 
-  rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
-    rvest::html_table() |>
-    purrr::pluck(1) |>
+  xtab <- rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
+    rvest::html_table()
+
+  if (nrow(xtab[[1]]) == 0) return(tibble::tibble())
+
+  xtab[[1]] |>
     purrr::set_names(c("run", "players", "hosts", "commentators", "description", "run_start", "run_duration", "bidwars")) |>
     dplyr::mutate(
       run_start = lubridate::ymd_hms(.data$run_start),
-      run_duration = if_else(run_duration == "0", "00:00:00", run_duration),
+      run_duration = ifelse(run_duration == "0", "00:00:00", run_duration),
       # run_end = lubridate::ymd_hms(.data$run_end),
       run_duration = hms::as_hms(run_duration),
       #run_duration_s = as.numeric(difftime(.data$run_end, .data$run_start, units = "secs")),
