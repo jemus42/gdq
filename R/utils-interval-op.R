@@ -11,4 +11,3 @@
 #' @param start,end Interval start and end points.
 #' @return The result of calling `interval(start = NULL, end = NULL, tzone = tz(start))`.
 NULL
-

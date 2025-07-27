@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -30,35 +30,41 @@ if (!("Fira Sans Condensed" %in% showtextdb::font_installed())) {
 }
 ```
 
-```{r setup}
+```{r load}
+#| message: false
 library(gdqdonations)
-library(dplyr)
-library(tidyr)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
 library(kableExtra)
 
-donations <- gdqdonations::gdq_donations %>% 
+donations <- gdqdonations::gdq_donations |>
   augment_donations()
 runs <- gdqdonations::gdq_runs
 ```
 
 ```{r gdq-totals-calc}
 gdq_donation_totals <-
-  donations %>%
-  group_by(event) %>%
+  donations |>
+  group_by(event) |>
   summarize(
     total = sum(amount),
     avg = mean(amount),
+    count = n(),
     gdq = unique(gdq),
-    year = unique(year)
-  ) %>%
-  arrange(as.numeric(year)) %>%
-  mutate(cumtot = cumsum(total))
+    year = unique(year),
+    .groups = "drop"
+  ) |>
+  arrange(as.numeric(year)) |>
+  mutate(
+    cumtot = cumsum(total),
+    cummean = cummean(total)
+  )
 ```
 
 
 ```{r gdq-donation-totals}
-gdq_donation_totals %>%
+gdq_donation_totals |>
   ggplot(aes(x = year, y = total, fill = gdq)) +
   geom_col(position = position_dodge2(preserve = "single"), alpha = .75) +
   scale_x_year_discrete() +
@@ -69,10 +75,65 @@ gdq_donation_totals %>%
   scale_colorfill_gdq(guide = "none") +
   labs(
     title = "Games Done Quick: Donation Totals",
-    subtitle = glue::glue("Donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span> as per the official tracker page")
+    subtitle = glue::glue(
+      "Donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span> as per the official tracker page"
+    )
   ) +
   theme_gdq()
 ```
+
+## Relative to Average
+
+```{r}
+gdq_donation_totals |>
+  ggplot(aes(x = as.integer(year), y = cumtot, color = gdq, fill = gdq)) +
+  scale_x_year() +
+  scale_y_currency() +
+  scale_colorfill_gdq(guide = "none") +
+  geom_line(linewidth = 1.15) +
+  geom_point(shape = 21, size = 3, color = "white", stroke = 1.5) +
+  labs(
+    title = "Games Done Quick: Cumulative Donation Totals",
+    subtitle = glue::glue(
+      "Donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span> as per the official tracker page"
+    )
+  ) +
+  theme_gdq()
+
+gdq_donation_totals |>
+  ggplot(aes(x = as.integer(year), y = total, color = gdq, fill = gdq)) +
+  scale_x_year() +
+  scale_y_currency() +
+  scale_colorfill_gdq(guide = "none") +
+  geom_line(linewidth = 1.15) +
+  geom_point(shape = 21, size = 3, color = "white", stroke = 1.5) +
+  labs(
+    title = "Games Done Quick: Donation Totals",
+    subtitle = glue::glue(
+      "Donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span> as per the official tracker page"
+    )
+  ) +
+  theme_gdq()
+```
+
+```{r}
+gdq_donation_totals |>
+  group_by(gdq) |>
+  mutate(lagtotal = total - lag(total, default = 0)) |>
+  ggplot(aes(x = as.integer(year), y = lagtotal, color = gdq, fill = gdq)) +
+  geom_col(alpha = 5 / 12, position = position_dodge2()) +
+  scale_x_year() +
+  scale_y_currency() +
+  scale_colorfill_gdq(guide = "none") +
+  labs(
+    title = "Games Done Quick: Donation Delta",
+    subtitle = glue::glue(
+      "Difference in donation totals for <span style='color:{gdq_pal[['AGDQ']]}'>AGDQ</span> and <span style='color:{gdq_pal[['SGDQ']]}'>SGDQ</span>, e.g. AGDQ2022 - AGDQ2021"
+    )
+  ) +
+  theme_gdq()
+```
+
 
 ## Relative Progress
 
@@ -81,25 +142,29 @@ Also, the last "run" listed on the runs page is sometimes the finale, sometimes 
 
 ```{r gdq-startend}
 full_join(
-  runs %>%
-    group_by(event) %>%
-    slice_tail(n = 1) %>% 
+  runs |>
+    group_by(event) |>
+    slice_tail(n = 1) |>
     select(event, run, run_end),
-  donations %>% 
-    group_by(event) %>% 
-    slice_tail(n = 1) %>% 
+  donations |>
+    group_by(event) |>
+    slice_tail(n = 1) |>
     select(event, amount, donation_time = time),
   by = "event"
-) %>% 
-  arrange(donation_time) %>% 
-  mutate(hours_since_end = (run_end %--% donation_time) / lubridate::dhours(1)) %>% 
+) |>
+  arrange(donation_time) |>
+  mutate(
+    hours_since_end = (run_end %--% donation_time) / lubridate::dhours(1)
+  ) |>
   select(
     event,
-    last_run = run, last_run_end = run_end,
-    last_donation = donation_time, amount,
+    last_run = run,
+    last_run_end = run_end,
+    last_donation = donation_time,
+    amount,
     hours_since_end
-  ) %>% 
-  kable() %>% 
+  ) |>
+  kable() |>
   kable_styling()
 ```
 
@@ -107,28 +172,28 @@ How about we compare first/last donation and first/last run times per event.
 
 ```{r gdq-firstlast-run-donation, fig.width=9, fig.height=8}
 bind_rows(
-  runs %>%
-    group_by(event) %>% 
+  runs |>
+    group_by(event) |>
     summarize(
       type = "run",
       first = min(run_start, na.rm = TRUE),
       last = max(run_end, na.rm = TRUE)
     ),
-  donations %>%
-    group_by(event) %>% 
+  donations |>
+    group_by(event) |>
     summarize(
       type = "donation",
       first = min(time, na.rm = TRUE),
       last = max(time, na.rm = TRUE)
     )
-) %>% 
-  arrange(first) %>% 
+) |>
+  arrange(first) |>
   mutate(
     event = factor(event, levels = event_index$event)
-  ) %>% 
+  ) |>
   ggplot(aes(y = 0, xmin = first, xmax = last, fill = type, color = type)) +
   facet_wrap(facets = vars(event), scales = "free", nrow = 4) +
-  geom_errorbarh(height = .5, size = 1.5, alpha = 2/3) +
+  geom_errorbarh(height = .5, linewidth = 1.5, alpha = 2 / 3) +
   scale_x_datetime(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(limits = c(-1, 1)) +
   scale_color_brewer(palette = "Dark2", guide = "none") +
@@ -149,22 +214,30 @@ bind_rows(
 Trying to reasonably determine start and end of the main event period to scale donation progress relatively.
 
 ```{r gdq-donations-timeline-per-event}
-donations %>%
-  filter(time_rel >= 0 & time_rel <= 1.05) %>%
-  group_by(event) %>%
-  mutate(amount_total = cumsum(amount)) %>%
-  ungroup() %>%
+donations |>
+  filter(time_rel >= 0 & time_rel <= 1.01) |>
+  group_by(event) |>
+  mutate(amount_total = cumsum(amount)) |>
+  ungroup() |>
   mutate(
     highlight = event == latest_event()
-  ) %>% 
-  ggplot(aes(x = time_rel, y = amount_total, color = highlight, group = event)) +
-  geom_step() +
+  ) |>
+  ggplot(aes(
+    x = time_rel,
+    y = amount_total,
+    color = highlight,
+    group = event
+  )) +
+  geom_step(aes(linewidth = highlight)) +
   scale_x_continuous(labels = scales::percent_format()) +
   scale_y_currency(breaks = scales::pretty_breaks()) +
   scale_color_manual(
-    values = c("TRUE" = gdq_pal[["GDQ"]], "FALSE" = "gray"), 
+    values = c("TRUE" = gdq_pal[["GDQ"]], "FALSE" = "gray"),
     labels = c("TRUE" = latest_event(), "FALSE" = "Previous events"),
-    name = "",
+    guide = "none"
+  ) +
+  scale_linewidth_manual(
+    values = c("TRUE" = 2, "FALSE" = 1),
     guide = "none"
   ) +
   labs(
@@ -176,3 +249,42 @@ donations %>%
   theme_gdq()
 ```
 
+## For Fun Model
+
+```{r}
+donation_totals_mod <- gdq_donation_totals |>
+  mutate(
+    year = as.integer(year),
+    year = if_else(gdq == "SGDQ", year + .5, year)
+  )
+
+mod <- lm(total ~ gdq + year + I(year^2), data = donation_totals_mod)
+broom::glance(mod)
+
+broom::augment(mod) |>
+  select(total, gdq, year, .fitted) |>
+  left_join(donation_totals_mod, by = join_by(total, gdq, year)) |>
+  pivot_longer(
+    cols = c(total, .fitted),
+    names_to = "type",
+    values_to = "total"
+  ) |>
+  mutate(
+    type = case_match(
+      type,
+      ".fitted" ~ "Predicted",
+      "total" ~ "Observed"
+    )
+  ) |>
+  ggplot(aes(x = year, y = total, color = type, fill = type)) +
+  geom_line() +
+  geom_point() +
+  scale_y_currency() +
+  scale_color_brewer(
+    palette = "Dark2",
+    name = NULL,
+    aesthetics = c("color", "fill")
+  ) +
+  labs() +
+  theme_gdq()
+```

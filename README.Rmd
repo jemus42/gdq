@@ -27,8 +27,8 @@ The goal of `gdqdonations` is to to gather data from the GDQ tracker, and also g
 Install from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("jemus42/gdqdonations")
+# install.packages("pak")
+pak::pak("jemus42/gdqdonations")
 ```
 
 ## Example

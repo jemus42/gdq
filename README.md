@@ -17,8 +17,8 @@ and also gdqvods.com
 Install from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("jemus42/gdqdonations")
+# install.packages("pak")
+pak::pak("jemus42/gdqdonations")
 ```
 
 ## Example
@@ -30,7 +30,7 @@ library(gdqdonations)
 
 # Included event dates for convenience
 tibble::glimpse(event_index)
-#> Rows: 26
+#> Rows: 30
 #> Columns: 8
 #> $ event                <chr> "AGDQ2011", "SGDQ2011", "AGDQ2012", "SGDQ2012", "…
 #> $ start                <dttm> 2011-01-06 00:00:00, 2011-08-04 19:00:00, 2012-0…

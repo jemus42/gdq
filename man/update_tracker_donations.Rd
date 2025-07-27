@@ -6,7 +6,6 @@
 \usage{
 update_tracker_donations(
   events,
-  delay = 0.5,
   ignore_cache = FALSE,
   in_progress = FALSE,
   sound = TRUE
@@ -14,8 +13,6 @@ update_tracker_donations(
 }
 \arguments{
 \item{events}{Events such as \code{"agdq2019"}, case insensitive.}
-
-\item{delay}{\verb{[0.5]}: Seconds to wait between pages. Don't annoy the webserver.}
 
 \item{ignore_cache}{\verb{[FALSE]}: If \code{TRUE}, ignore cached file and re-retrieve data.}
 

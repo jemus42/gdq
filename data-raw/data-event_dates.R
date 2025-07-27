@@ -4,6 +4,7 @@
 library(lubridate)
 library(dplyr)
 
+# fmt: skip
 event_dates <- tibble::tribble(
   ~event,     ~start,                        ~end,
   # Awesome Games Done Quick
@@ -20,6 +21,9 @@ event_dates <- tibble::tribble(
   "AGDQ2021", ymd_hms("2021-01-03 16:30:00", tz = "UTC"), ymd_hms("2021-01-10 09:52:00", tz = "UTC"),
   "AGDQ2022", ymd_hms("2022-01-09 12:00:00", tz = "UTC"), ymd_hms("2022-01-16 12:00:00", tz = "UTC"),
   "AGDQ2023", ymd_hms("2023-01-08 12:00:00", tz = "UTC"), ymd_hms("2023-01-15 12:00:00", tz = "UTC"),
+  "AGDQ2024", ymd_hms("2024-01-14 12:00:00", tz = "UTC"), ymd_hms("2024-01-21 12:00:00", tz = "UTC"),
+  "AGDQ2025", ymd_hms("2025-01-05 12:00:00", tz = "UTC"), ymd_hms("2025-01-12 12:00:00", tz = "UTC"),
+
   # Summer Games Done Quick
   "SGDQ2011", ymd_hms("2011-08-04 19:00:00", tz = "UTC"), ymd_hms("2011-08-06 23:07:31", tz = "UTC"),
   "SGDQ2012", ymd_hms("2012-05-24 21:00:00", tz = "UTC"), ymd_hms("2012-05-28 18:13:00", tz = "UTC"),
@@ -33,7 +37,10 @@ event_dates <- tibble::tribble(
   "SGDQ2020", ymd_hms("2020-08-16 15:30:00", tz = "UTC"), ymd_hms("2020-08-23 07:42:00", tz = "UTC"),
   "SGDQ2021", ymd_hms("2021-07-04 15:30:00", tz = "UTC"), ymd_hms("2021-07-11 07:46:00", tz = "UTC"),
   "SGDQ2022", ymd_hms("2022-06-26 15:30:00", tz = "UTC"), ymd_hms("2022-07-03 16:00:00", tz = "UTC"),
-  "SGDQ2023", ymd_hms("2023-05-28 12:00:00", tz = "UTC"), ymd_hms("2023-06-04 16:00:00", tz = "UTC")
+  "SGDQ2023", ymd_hms("2023-05-28 12:00:00", tz = "UTC"), ymd_hms("2023-06-04 16:00:00", tz = "UTC"),
+  "SGDQ2024", ymd_hms("2024-06-30 12:00:00", tz = "UTC"), ymd_hms("2024-07-07 16:00:00", tz = "UTC"),
+  "SGDQ2025", ymd_hms("2025-07-06 12:00:00", tz = "UTC"), ymd_hms("2025-07-13 16:00:00", tz = "UTC")
+
 ) |>
   mutate(event_duration = start %--% end / ddays(1))
 
@@ -43,6 +50,8 @@ event_index <- dplyr::left_join(event_dates, event_index, by = "event") |>
   dplyr::arrange(.data$start)
 
 usethis::use_data(
-  event_index, overwrite = TRUE,
-  compress = "xz", version = 3
+  event_index,
+  overwrite = TRUE,
+  compress = "xz",
+  version = 3
 )

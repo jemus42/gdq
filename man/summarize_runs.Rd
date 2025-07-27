@@ -9,6 +9,9 @@ summarize_runs(runs)
 \arguments{
 \item{runs}{Run tibble as returned by \code{\link[=assemble_runs]{assemble_runs()}}.}
 }
+\value{
+A \link[tibble:tibble]{tibble}.
+}
 \description{
 Summarize GDQ tracker run data by event
 }

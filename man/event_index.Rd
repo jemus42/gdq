@@ -5,7 +5,7 @@
 \alias{event_index}
 \title{GDQ Event Index}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 26 rows and 8 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 30 rows and 8 columns.
 }
 \usage{
 event_index

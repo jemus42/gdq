@@ -7,6 +7,7 @@
 #' latest_event()
 latest_event <- function() {
   gdqdonations::event_index$event[
-    gdqdonations::event_index$start == max(gdqdonations::event_index$start)
+    gdqdonations::event_index$start ==
+      max(gdqdonations::event_index$start, na.rm = TRUE)
   ]
 }

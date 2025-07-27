@@ -1,6 +1,6 @@
 Package: gdqdonations
 Title: Get data from the 'GDQ' donation tracker
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Lukas",
            family = "Burk",
@@ -10,7 +10,7 @@ Authors@R:
 Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
 Depends: 
-    R (>= 3.6)
+    R (>= 4.3)
 Imports: 
     cli,
     dplyr,
@@ -20,7 +20,6 @@ Imports:
     glue,
     hms,
     lubridate,
-    magrittr,
     purrr,
     rlang (>= 0.1.2),
     rvest,
@@ -39,4 +38,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

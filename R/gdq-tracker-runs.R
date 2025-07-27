@@ -10,7 +10,6 @@
 #' get_runs(event = "sgdq2021")
 #' }
 get_runs <- function(event = "latest") {
-
   if (event == "latest") {
     event <- latest_event()
   }
@@ -21,10 +20,21 @@ get_runs <- function(event = "latest") {
   xtab <- rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
     rvest::html_table()
 
-  if (nrow(xtab[[1]]) == 0) return(tibble::tibble())
+  if (nrow(xtab[[1]]) == 0) {
+    return(tibble::tibble())
+  }
 
   xtab[[1]] |>
-    purrr::set_names(c("run", "players", "hosts", "commentators", "description", "run_start", "run_duration", "bidwars")) |>
+    purrr::set_names(c(
+      "run",
+      "players",
+      "hosts",
+      "commentators",
+      "description",
+      "run_start",
+      "run_duration",
+      "bidwars"
+    )) |>
     dplyr::mutate(
       run_start = lubridate::ymd_hms(.data$run_start),
       run_duration = ifelse(run_duration == "0", "00:00:00", run_duration),
@@ -44,7 +54,7 @@ get_runs <- function(event = "latest") {
 #'
 #' @param runs Run tibble as returned by [`assemble_runs()`].
 #'
-#' @return
+#' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
@@ -56,7 +66,11 @@ summarize_runs <- function(runs) {
   runs |>
     dplyr::filter(
       # bonus games / streams
-      stringr::str_detect(.data$run, "[Bb]onus ([Gg]ames|[Ss]tream)", negate = TRUE)
+      stringr::str_detect(
+        .data$run,
+        "[Bb]onus ([Gg]ames|[Ss]tream)",
+        negate = TRUE
+      )
     ) |>
     dplyr::group_by(.data$event) |>
     dplyr::summarize(
@@ -78,7 +92,6 @@ summarize_runs <- function(runs) {
 #' assemble_runs()
 #' }
 assemble_runs <- function(events = NULL, cache = FALSE) {
-
   if (is.null(events)) {
     events <- fs::dir_ls(
       fs::path(
@@ -89,20 +102,23 @@ assemble_runs <- function(events = NULL, cache = FALSE) {
     )
   }
 
-  runs <- purrr::map_df(events, ~{
-    readRDS(.x) |>
-      dplyr::mutate(
-        run = as.character(.data$run),
-        players = as.character(.data$players),
-        description = as.character(.data$description),
-        bidwars = as.character(.data$bidwars)
-      )
-    }) |>
+  runs <- purrr::map_df(
+    events,
+    \(x) {
+      readRDS(x) |>
+        dplyr::mutate(
+          run = as.character(.data$run),
+          players = as.character(.data$players),
+          description = as.character(.data$description),
+          bidwars = as.character(.data$bidwars)
+        )
+    }
+  ) |>
     dplyr::arrange(.data$run_start)
 
   if (cache) {
     cache_path <- fs::path(getOption("gdq_cache_dir"), "gdq_runs.rds")
-    cli::cli_alert_info("Caching run data at {.emph {cache_path}}")
+    cli::cli_alert_info("Caching run data at {.file {cache_path}}")
     saveRDS(runs, cache_path)
   }
 
@@ -124,32 +140,44 @@ assemble_runs <- function(events = NULL, cache = FALSE) {
 #'   in_progress = TRUE
 #' )
 #' }
-update_tracker_runs <- function(events, ignore_cache = FALSE, in_progress = FALSE) {
+update_tracker_runs <- function(
+  events,
+  ignore_cache = FALSE,
+  in_progress = FALSE
+) {
   prg <- cli::cli_progress_bar(name = "Getting runs", total = length(events))
   events <- toupper(events)
 
-  purrr::walk(events, ~{
-    cli::cli_progress_update(id = prg)
-    cli::cli_text("Current event: {.x}")
+  purrr::walk(
+    events,
+    \(x) {
+      cli::cli_progress_update(id = prg)
+      cli::cli_text("Current event: {x}")
 
-    out_file <- fs::path(
-      getOption("gdq_cache_dir"),
-      "gamesdonequick.com",
-      paste0("runs_", tolower(.x), ".rds")
-    )
+      out_file <- fs::path(
+        getOption("gdq_cache_dir"),
+        "gamesdonequick.com",
+        paste0("runs_", tolower(x), ".rds")
+      )
 
-    if (!ignore_cache & file.exists(out_file)) return(tibble::tibble())
-
-    if (!in_progress) {
-      if (Sys.Date() < gdqdonations::event_index$end[gdqdonations::event_index$event == .x]) {
+      if (!ignore_cache & file.exists(out_file)) {
         return(tibble::tibble())
       }
-    }
 
-    usethis::use_directory(getOption("gdq_cache_dir"))
-    get_runs(event = .x) |>
-      saveRDS(out_file)
-  })
+      if (!in_progress) {
+        if (
+          Sys.Date() <
+            gdqdonations::event_index$end[gdqdonations::event_index$event == x]
+        ) {
+          return(tibble::tibble())
+        }
+      }
+
+      usethis::use_directory(getOption("gdq_cache_dir"))
+      get_runs(event = x) |>
+        saveRDS(out_file)
+    }
+  )
 
   cli::cli_alert_success("Got runs from GDQ tracker!")
 }

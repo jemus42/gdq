@@ -7,9 +7,10 @@
 #' \dontrun{
 #' tracker_run_index()
 #' }
-tracker_run_index <- function() {
-
-  runlinks <- rvest::read_html(glue::glue("{gdq_base_url}/tracker/runs/")) |>
+tracker_run_index <- function(
+  tracker_url = "https://tracker.gamesdonequick.com/tracker/runs/"
+) {
+  runlinks <- rvest::read_html(tracker_url) |>
     rvest::html_nodes(".list-group-item")
 
   tibble::tibble(
