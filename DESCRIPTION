@@ -2,10 +2,7 @@ Package: gdqdonations
 Title: Get data from the 'GDQ' donation tracker
 Version: 0.0.0.9001
 Authors@R: 
-    person(given = "Lukas",
-           family = "Burk",
-           role = c("aut", "cre"),
-           email = "github@quantenbrot.de",
+    person("Lukas", "Burk", , "github@quantenbrot.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7528-3795"))
 Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
@@ -15,22 +12,22 @@ Imports:
     cli,
     dplyr,
     fs,
-    ggtext,
     ggplot2,
+    ggtext,
     glue,
     hms,
     lubridate,
+    polite,
     purrr,
     rlang (>= 0.1.2),
     rvest,
     scales,
     stringr,
     tibble,
-    usethis,
-    polite
+    usethis
 Suggests: 
-    kableExtra,
     beepr,
+    kableExtra,
     rmarkdown,
     roxygen2,
     showtext,
@@ -40,3 +37,5 @@ LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://github.com/jemus42/gdqdonations
+BugReports: https://github.com/jemus42/gdqdonations/issues
