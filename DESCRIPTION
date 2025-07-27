@@ -26,7 +26,8 @@ Imports:
     scales,
     stringr,
     tibble,
-    usethis
+    usethis,
+    polite
 Suggests: 
     kableExtra,
     beepr,
