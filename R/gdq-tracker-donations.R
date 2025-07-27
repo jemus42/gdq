@@ -29,14 +29,14 @@ get_page_count <- function(event = "latest") {
 #' Get a single page from the tracker
 #'
 #' @inheritParams get_page_count
-#' @param page `[1]`: Page to get, a single number.
+#' @param page `[1]`: Page to get, can also be a range of panges, e.g. `1:5`.
 #'
 #' @return A [tibble][tibble::tibble].
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' get_donation_page(event = "sgdq2021", page = 1)
+#' get_donation_page(event = "sgdq2011", page = 1:3)
 #' }
 get_donation_page <- function(event = "latest", page = 1) {
   if (event == "latest") {
@@ -46,10 +46,10 @@ get_donation_page <- function(event = "latest", page = 1) {
   event <- toupper(event)
   url <- event_index$tracker_donation_url[event_index$event == event]
   url = paste(gdq_base_url, url, sep = "/")
-  session <- polite::bow(url)
+  session <- polite::bow(url, delay = 5)
 
   purrr::map(
-    page,
+    as.numeric(page),
     \(p) {
       polite::scrape(session, query = list(page = p)) |>
         rvest::html_table() |>
@@ -67,7 +67,8 @@ get_donation_page <- function(event = "latest", page = 1) {
       format = "{cli::pb_name} {cli::pb_current}/{cli::pb_total} {cli::pb_bar} {cli::pb_percent} | ETA: {cli::pb_eta}",
       total = length(page)
     )
-  )
+  ) |>
+    purrr::list_rbind()
 }
 
 #' Get all donations for an event from the tracker
