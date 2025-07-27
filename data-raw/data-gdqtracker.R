@@ -8,16 +8,16 @@ usethis::use_directory("data-cache/gamesdonequick.com/")
 update_tracker_donations(event_index$event)
 
 # Update in-progress event
-update_tracker_donations(
-  latest_event(),
-  ignore_cache = TRUE,
-  in_progress = TRUE,
-  sound = FALSE
-)
+# update_tracker_donations(
+#   latest_event(),
+#   ignore_cache = TRUE,
+#   in_progress = TRUE,
+#   sound = FALSE
+# )
 
 # Assemble and save
-gdq_donations <- assemble_donations(cache = FALSE)
-usethis::use_data(gdq_donations, overwrite = TRUE, compress = "xz", version = 3)
+gdq_donations <- assemble_donations(cache = TRUE)
+usethis::use_data(gdq_donations, overwrite = TRUE)
 
 # Runs (via gamesdonequick.com) -----------------------------------------------------------------------------------
 update_tracker_runs(latest_event())
@@ -27,7 +27,5 @@ update_tracker_runs(
   in_progress = TRUE,
   ignore_cache = TRUE
 )
-gdq_runs <- assemble_runs(cache = FALSE)
-usethis::use_data(gdq_runs, overwrite = TRUE, compress = "xz", version = 3)
-
-assemble_runs(cache = TRUE)
+gdq_runs <- assemble_runs(cache = TRUE)
+usethis::use_data(gdq_runs, overwrite = TRUE)

@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/jemus42/gdqdonations/workflows/R-CMD-check/badge.svg)](https://github.com/jemus42/gdqdonations/actions)
 [![R-CMD-check](https://github.com/jemus42/gdqdonations/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/gdqdonations/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 

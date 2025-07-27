@@ -103,7 +103,7 @@ get_donations <- function(event = "latest") {
 #'
 #' @examples
 #' \dontrun{
-#' assemble_donations()
+#' assemble_donations(cache = TRUE)
 #' }
 assemble_donations <- function(events = NULL, cache = FALSE) {
   if (is.null(events)) {
@@ -116,10 +116,15 @@ assemble_donations <- function(events = NULL, cache = FALSE) {
     )
   }
 
-  all_donations <- purrr::map_df(
+  all_donations <- purrr::map(
     events,
     \(x) {
-      readRDS(x) |>
+      res <- readRDS(x)
+      if (!inherits(res, "data.frame")) {
+        res <- purrr::list_rbind(res)
+      }
+
+      res |>
         dplyr::mutate(
           event = stringr::str_extract(x, "[as]gdq\\d{4}") |>
             stringr::str_to_upper(),
@@ -127,11 +132,12 @@ assemble_donations <- function(events = NULL, cache = FALSE) {
         )
     }
   ) |>
+    purrr::list_rbind() |>
     dplyr::arrange(.data$time)
 
   if (cache) {
     cache_path <- fs::path(getOption("gdq_cache_dir"), "gdq_donations.rds")
-    cli::cli_alert_info("Caching donation data at {.emph {cache_path}")
+    cli::cli_alert_info("Caching donation data at {.file {cache_path}}")
     saveRDS(all_donations, cache_path)
   }
 

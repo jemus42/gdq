@@ -17,7 +17,7 @@ get_runs <- function(event = "latest") {
   event <- toupper(event)
   url <- event_index$tracker_run_url[event_index$event == event]
 
-  xtab <- rvest::read_html(glue::glue("{gdq_base_url}/{url}")) |>
+  xtab <- rvest::read_html(paste0(gdq_base_url, url)) |>
     rvest::html_table()
 
   if (nrow(xtab[[1]]) == 0) {

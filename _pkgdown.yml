@@ -1,7 +1,6 @@
 development:
   mode: auto
   destination: "."
-
 url: https://jemus42.github.io/gdqdonations
 
 home:

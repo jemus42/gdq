@@ -6,7 +6,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7528-3795"))
 Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
-URL: https://github.com/jemus42/gdqdonations
+URL: https://github.com/jemus42/gdqdonations, https://jemus42.github.io/gdqdonations
 BugReports: https://github.com/jemus42/gdqdonations/issues
 Depends: 
     R (>= 4.2)
@@ -29,6 +29,7 @@ Imports:
     usethis
 Suggests: 
     beepr,
+    broom,
     kableExtra,
     rmarkdown,
     roxygen2,
@@ -36,6 +37,5 @@ Suggests:
     tidyr
 Encoding: UTF-8
 LazyData: true
-LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

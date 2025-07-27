@@ -8,6 +8,15 @@
 \description{
 Scrape data from the 'GDQ' donation tracker.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/jemus42/gdqdonations}
+  \item \url{https://jemus42.github.io/gdqdonations}
+  \item Report bugs at \url{https://github.com/jemus42/gdqdonations/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Lukas Burk \email{github@quantenbrot.de} (\href{https://orcid.org/0000-0001-7528-3795}{ORCID})
 
