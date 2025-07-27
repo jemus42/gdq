@@ -4,9 +4,7 @@
 \alias{tracker_run_index}
 \title{Get GDQ tracker event overview}
 \usage{
-tracker_run_index(
-  tracker_url = "https://tracker.gamesdonequick.com/tracker/runs/"
-)
+tracker_run_index()
 }
 \value{
 A tibble

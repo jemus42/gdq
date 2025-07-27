@@ -12,3 +12,4 @@
 ^pkgdown$
 ^vignettes/articles$
 ^data-cache$
+^Makefile$
