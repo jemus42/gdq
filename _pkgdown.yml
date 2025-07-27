@@ -10,16 +10,9 @@ home:
     Scrape, aggregate and cache donations and runs from mainline GDQ events.
 
 template:
-  # path: pkgdown/templates
+  bootstrap: 5
   params:
     bootswatch: cosmo
-  # opengraph:
-  #   image:
-  #     src: "man/figures/logo.png"
-  #     alt: "Hex sticker showing the trakt.tv logo"
-    twitter:
-      creator: "@jemus42"
-      card: summary_large_image # summary
 
 authors:
   Lukas Burk:
