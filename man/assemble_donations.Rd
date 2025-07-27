@@ -19,6 +19,6 @@ Aggregate all donation data from the tracker in one file
 }
 \examples{
 \dontrun{
-assemble_donations()
+assemble_donations(cache = TRUE)
 }
 }

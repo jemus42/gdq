@@ -5,7 +5,7 @@
 \alias{gdq_donations}
 \title{Aggregated donation data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 801344 rows and 5 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 949998 rows and 5 columns.
 }
 \source{
 \code{\link[=assemble_donations]{assemble_donations()}}
