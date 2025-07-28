@@ -65,7 +65,7 @@ get_donation_page <- function(event = "latest", page = 1) {
     .progress = list(
       name = event,
       format = "{cli::pb_name} {cli::pb_current}/{cli::pb_total} {cli::pb_bar} {cli::pb_percent} | ETA: {cli::pb_eta}",
-      total = length(page)
+      total = as.numeric(length(page))
     )
   ) |>
     purrr::list_rbind()
