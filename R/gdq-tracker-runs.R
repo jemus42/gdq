@@ -167,7 +167,7 @@ update_tracker_runs <- function(
       if (!in_progress) {
         if (
           Sys.Date() <
-            gdqdonations::event_index$end[gdqdonations::event_index$event == x]
+            event_index$end[event_index$event == x]
         ) {
           return(tibble::tibble())
         }

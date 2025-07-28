@@ -1,4 +1,4 @@
-library(gdqdonations)
+library(gdq)
 
 usethis::use_directory("data-cache/gamesdonequick.com/")
 

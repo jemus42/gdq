@@ -6,8 +6,8 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7528-3795"))
 Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
-URL: https://github.com/jemus42/gdqdonations, https://jemus42.github.io/gdqdonations
-BugReports: https://github.com/jemus42/gdqdonations/issues
+URL: https://github.com/jemus42/gdq, https://jemus42.github.io/gdq
+BugReports: https://github.com/jemus42/gdq/issues
 LazyDataCompression: xz
 Depends: 
     R (>= 4.2)

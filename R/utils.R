@@ -6,8 +6,8 @@
 #' @examples
 #' latest_event()
 latest_event <- function() {
-  gdqdonations::event_index$event[
-    gdqdonations::event_index$start ==
-      max(gdqdonations::event_index$start, na.rm = TRUE)
+  event_index$event[
+    event_index$start ==
+      max(event_index$start, na.rm = TRUE)
   ]
 }

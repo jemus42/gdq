@@ -44,7 +44,7 @@ event_dates <- tibble::tribble(
 ) |>
   mutate(event_duration = start %--% end / ddays(1))
 
-event_index <- gdqdonations::tracker_run_index()
+event_index <- gdq::tracker_run_index()
 
 event_index <- dplyr::left_join(event_dates, event_index, by = "event") |>
   dplyr::arrange(.data$start)

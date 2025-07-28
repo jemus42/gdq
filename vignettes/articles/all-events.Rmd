@@ -32,15 +32,15 @@ if (!("Fira Sans Condensed" %in% showtextdb::font_installed())) {
 
 ```{r load}
 #| message: false
-library(gdqdonations)
+library(gdq)
 library(dplyr, warn.conflicts = FALSE)
 library(tidyr, warn.conflicts = FALSE)
 library(ggplot2)
 library(kableExtra)
 
-donations <- gdqdonations::gdq_donations |>
+donations <- gdq::gdq_donations |>
   augment_donations()
-runs <- gdqdonations::gdq_runs
+runs <- gdq::gdq_runs
 ```
 
 ```{r gdq-totals-calc}

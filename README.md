@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gdqdonations
+# gdq
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/jemus42/gdqdonations/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/gdqdonations/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/jemus42/gdq/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jemus42/gdq/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of `gdqdonations` is to to gather data from the GDQ tracker,
+The goal of `gdq` is to to gather data from the GDQ tracker,
 and also gdqvods.com
 
 ## Installation
@@ -17,7 +17,7 @@ Install from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("jemus42/gdqdonations")
+pak::pak("jemus42/gdq")
 ```
 
 ## Example
@@ -25,7 +25,7 @@ pak::pak("jemus42/gdqdonations")
 This is a basic example:
 
 ``` r
-library(gdqdonations)
+library(gdq)
 
 # Included event dates for convenience
 tibble::glimpse(event_index)

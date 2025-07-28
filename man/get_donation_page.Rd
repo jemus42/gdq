@@ -10,7 +10,7 @@ get_donation_page(event = "latest", page = 1)
 \item{event}{\verb{["latest"]} Event such as \code{"AGDQ2021"}, case insensitive. The default,
 \code{"latest"}, is an alias for \verb{[latest_event()]}.}
 
-\item{page}{\verb{[1]}: Page to get, a single number.}
+\item{page}{\verb{[1]}: Page to get, can also be a range of panges, e.g. \code{1:5}.}
 }
 \value{
 A \link[tibble:tibble]{tibble}.
@@ -20,6 +20,6 @@ Get a single page from the tracker
 }
 \examples{
 \dontrun{
-get_donation_page(event = "sgdq2021", page = 1)
+get_donation_page(event = "sgdq2011", page = 1:3)
 }
 }

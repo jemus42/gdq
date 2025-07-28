@@ -1,7 +1,7 @@
 development:
   mode: auto
   destination: "."
-url: https://jemus42.github.io/gdqdonations
+url: https://jemus42.github.io/gdq
 
 home:
   title: Collect data from the GamesDoneQuick Donation Tracker
@@ -52,4 +52,4 @@ reference:
       - gdq_runs
   - title: This package
     contents:
-      - gdqdonations
+      - gdq
