@@ -1,6 +1,6 @@
 Package: gdq
 Title: Get data from the 'GDQ' donation tracker
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: 
     person("Lukas", "Burk", , "github@quantenbrot.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7528-3795"))
