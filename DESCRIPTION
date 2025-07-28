@@ -1,4 +1,4 @@
-Package: gdqdonations
+Package: gdq
 Title: Get data from the 'GDQ' donation tracker
 Version: 0.0.0.9001
 Authors@R: 
@@ -8,6 +8,7 @@ Description: Scrape data from the 'GDQ' donation tracker.
 License: MIT + file LICENSE
 URL: https://github.com/jemus42/gdqdonations, https://jemus42.github.io/gdqdonations
 BugReports: https://github.com/jemus42/gdqdonations/issues
+LazyDataCompression: xz
 Depends: 
     R (>= 4.2)
 Imports: 
