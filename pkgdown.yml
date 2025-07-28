@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   articles/all-events: all-events.html
-last_built: 2025-07-28T00:09Z
+last_built: 2025-07-28T00:41Z
 urls:
   reference: https://jemus42.github.io/gdqdonations/reference
   article: https://jemus42.github.io/gdqdonations/articles
